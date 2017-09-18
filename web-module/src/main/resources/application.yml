@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mysql://172.17.0.2:3306/fintech_ws
+    username: root
+    password: mysql
+    driver-class-name: com.mysql.jdbc.Driver
+logging:
+  level: 
+    org.springframework.web: DEBUG
+    
