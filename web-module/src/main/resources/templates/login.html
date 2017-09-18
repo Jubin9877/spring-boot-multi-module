@@ -1,88 +1,215 @@
-<!DOCTYPE HTML>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-  <title>Login Page</title>
-  <style>
-    .error {
-      padding: 15px;
-      margin-bottom: 20px;
-      border: 1px solid transparent;
-      border-radius: 4px;
-      color: #a94442;
-      background-color: #f2dede;
-      border-color: #ebccd1;
-    }
+<title>Login Page</title>
+<style>
+.error {
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	color: #a94442;
+	background-color: #f2dede;
+	border-color: #ebccd1;
+}
 
-    .msg {
-      padding: 15px;
-      margin-bottom: 20px;
-      border: 1px solid transparent;
-      border-radius: 4px;
-      color: #31708f;
-      background-color: #d9edf7;
-      border-color: #bce8f1;
-    }
+.msg {
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	color: #31708f;
+	background-color: #d9edf7;
+	border-color: #bce8f1;
+}
 
-    #login-box {
-      width: 300px;
-      padding: 20px;
-      margin: 100px auto;
-      background: #fff;
-      -webkit-border-radius: 2px;
-      -moz-border-radius: 2px;
-      border: 1px solid #000;
-    }
-  </style>
+#login-box {
+	width: 300px;
+	padding: 20px;
+	margin: 100px auto;
+	background: #fff;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border: 1px solid #000;
+}
+</style>
 </head>
-<body onload='document.loginForm.account_name.focus();'>
+<video
+	poster="http://www.worldatlas.com/r/w728-h425-c728x425/upload/94/3a/11/shutterstock-394537039.jpg"
+	id="bgvid" playsinline="" autoplay="" muted="" loop="">
+	<source
+		src="https://assets.blackrock.com/blk-corp-assets/cache-1468628316000/images/media-bin/web/corporate/corporate-one/banners/origin-hp-cinemagraph.mp4"
+		type="video/mp4" />
+</video>
+<style>
+body {
+	margin: 0;
+	background: #000;
+}
 
-<h1>Spring Security Login Form (Remember Me Example)</h1>
+video {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	min-width: 100%;
+	min-height: 100%;
+	width: auto;
+	height: auto;
+	z-index: -100;
+	transform: translateX(-50%) translateY(-50%);
+	background: url('//demosthenes.info/assets/images/polina.jpg') no-repeat;
+	background-size: cover;
+	transition: 1s opacity;
+}
 
-<div id="login-box">
+.stopfade {
+	opacity: .5;
+}
 
-  <h3>Login with Username and Password</h3>
+#fintech {
+	font-family: Agenda-Light, Agenda Light, Agenda, Arial Narrow,
+		sans-serif;
+	font-weight: 100;
+	background: rgba(0, 0, 0, 0.3);
+	color: white;
+	padding: 2rem;
+	width: 33%;
+	margin: 2rem;
+	float: right;
+	font-size: 1.2rem;
+}
 
-  <div th:if="${error} != null">
-    <div class="error" th:text="${error}">Error</div>
-  </div>
-  <div th:if="${msg} != null">
-    <div class="msg" th:text="${msg}">message</div>
-  </div>
+h1 {
+	font-size: 3rem;
+	text-transform: uppercase;
+	margin-top: 0;
+	letter-spacing: .3rem;
+}
 
-  <form name='loginForm'
-        action="/auth/login_check" method='POST'>
+#fintech button {
+	display: block;
+	width: 80%;
+	padding: .4rem;
+	border: none;
+	margin: 1rem auto;
+	font-size: 1.3rem;
+	background: rgba(255, 255, 255, 0.23);
+	color: #fff;
+	border-radius: 3px;
+	cursor: pointer;
+	transition: .3s background;
+}
 
-    <table>
-      <tr>
-        <td>User:</td>
-        <td><input type='text' name='account_name'/></td>
-      </tr>
-      <tr>
-        <td>Password:</td>
-        <td><input type='password' name='password'/></td>
-      </tr>
+#fintech button:hover {
+	background: rgba(0, 0, 0, 0.5);
+}
 
-      <!-- if this is login for update, ignore remember me check -->
-      <div th:if="${loginUpdate} == null">
-        <tr>
-          <td></td>
-          <td>Remember Me: <input type="checkbox" name="remember-me"/></td>
-        </tr>
-      </div>
+a {
+	display: inline-block;
+	color: #fff;
+	text-decoration: none;
+	background: rgba(0, 0, 0, 0.5);
+	padding: .5rem;
+	transition: .6s background;
+}
 
-      <tr>
-        <td colspan='2'><input name="submit" type="submit"
-                               value="submit"/></td>
-      </tr>
+a:hover {
+	background: rgba(0, 0, 0, 0.9);
+}
 
-    </table>
+@media screen and (max-width: 500px) {
+	div {
+		width: 70%;
+	}
+}
 
-    <input type="hidden" th:name="${_csrf.parameterName}"
-           th:value="${_csrf.token}"/>
+@media screen and (max-device-width: 800px) {
+	html {
+		background: url(https://thenewcode.com/assets/images/polina.jpg) #000
+			no-repeat center center fixed;
+	}
+	#bgvid {
+		display: none;
+	}
+}
+</style>
 
-  </form>
 
+<div id="fintech">
+	<h1>yafintech-ws</h1>
+	<p>create by me 2017</p>
+	<p>
+		<a href="http://youtube.com">link on some staff</a>
+	</p>
+	<h3>Login with Username and Password</h3>
+
+	<div th:if="${error} != null">
+		<div class="error">Bad credential !</div>
+	</div>
+	<div th:if="${msg} != null">
+		<div class="msg" th:text="${msg}">message</div>
+	</div>
+
+	<form name='loginForm' action="/auth/login_check" method='POST'>
+
+		<table>
+			<tr>
+				<input type="text" class="form-control" id="Username"
+					name="account_name" placeholder="Please, enter your username" />
+			</tr>
+			<br />
+			<tr>
+				<input type="password" class="form-control" id="password"
+					name="password" placeholder="Please, enter your password" />
+			</tr>
+			<tr>
+				<td colspan='2'><input name="submit" type="submit"
+					value="submit" /></td>
+			</tr>
+		</table>
+
+		<input type="hidden" th:name="${_csrf.parameterName}"
+			th:value="${_csrf.token}" />
+
+	</form>
+	<p>The project dedicated to Spring framework technologies ( in
+		general )</p>
+	<p>So enjoy ;)</p>
+	<button>Pause</button>
 </div>
 
-</body>
+
+
+<script>
+	var vid = document.getElementById("bgvid");
+	var pauseButton = document.querySelector("#fintech button");
+
+	if (window.matchMedia('(prefers-reduced-motion)').matches) {
+		vid.removeAttribute("autoplay");
+		vid.pause();
+		pauseButton.innerHTML = "Paused";
+	}
+
+	function vidFade() {
+		vid.classList.add("stopfade");
+	}
+
+	vid.addEventListener('ended', function() {
+		// only functional if "loop" is removed
+		vid.pause();
+		// to capture IE10
+		vidFade();
+	});
+
+	pauseButton.addEventListener("click", function() {
+		vid.classList.toggle("stopfade");
+		if (vid.paused) {
+			vid.play();
+			pauseButton.innerHTML = "Pause";
+		} else {
+			vid.pause();
+			pauseButton.innerHTML = "Paused";
+		}
+	})
+</script>
+
 </html>
