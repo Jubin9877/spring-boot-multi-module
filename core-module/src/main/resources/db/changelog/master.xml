@@ -5,22 +5,5 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     	http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-	<changeSet id="my_entity" author="mmanco">
-        <createTable tableName="my_entity">
-            <column autoIncrement="true" name="id" type="bigint">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="name" type="varchar(255)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="value" type="varchar(255)"/>
-            <column name="creation_date" type="datetime">
-                <constraints nullable="false"/>
-            </column>
-            <column name="modification_date" type="datetime">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet> 
-
+    <!-- <include file="classpath:config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/> -->
 </databaseChangeLog>

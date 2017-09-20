@@ -1,16 +1,18 @@
 spring:
   datasource:
-    url: jdbc:mysql://172.17.0.2:3306/fintech_ws
+    url: jdbc:mysql://localhost:3306/fintech_ws
     username: root
-    password: mysql
+    password: 
     driver-class-name: com.mysql.jdbc.Driver
   mvc: 
     view:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
 
-#spring.mvc.view.prefix: /WEB-INF/jsp/
-#spring.mvc.view.suffix: .jsp
+liquibase:
+  enabled: false 
+  change-log: classpath:/db/changelog/master.xml
+
 logging:
   level: 
     org.springframework.web: DEBUG
