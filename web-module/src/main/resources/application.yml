@@ -4,7 +4,13 @@ spring:
     username: root
     password: mysql
     driver-class-name: com.mysql.jdbc.Driver
+  mvc: 
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+#spring.mvc.view.prefix: /WEB-INF/jsp/
+#spring.mvc.view.suffix: .jsp
 logging:
   level: 
     org.springframework.web: DEBUG
-    
