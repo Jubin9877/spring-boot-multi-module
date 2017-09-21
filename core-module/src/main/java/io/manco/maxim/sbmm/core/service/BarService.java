@@ -1,12 +1,13 @@
 package io.manco.maxim.sbmm.core.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.manco.maxim.sbmm.core.domain.Bar;
+import io.manco.maxim.sbmm.core.repository.BarRepository;
 
 @Service
 public class BarService {
@@ -14,34 +15,33 @@ public class BarService {
   @Autowired
   private BarRepository barDao;
 
-  public List<Bar> getBarList(String instId) {
-    return null;
-    // return barDao.getBarList(instId);
+  public List<Bar> getBarList(String watchListTickerId) {
+    return barDao.findByWatchListTickerId(watchListTickerId);
   }
 
-  public Bar getSingleBar(long barId, String instId) {
-    return null;
-    // return barDao.getSingleBar(barId, instId);
+  public Bar getSingleBar(Integer barId, String instId) {
+    return barDao.findByMdIdAndWatchListTickerId(barId, instId);
   }
 
-  public boolean update(Bar bar) {
-    return false;
-    // return barDao.updateBar(bar);
+  public Bar update(Bar bar) {
+    return barDao.save(bar);
   }
 
-  public boolean createBar(Bar bar) throws ServiceException {
-    return false;
-    // return barDao.createBar(bar);
+  public Bar createBar(Bar bar) {
+    return barDao.save(bar);
   }
 
-  public boolean deleteBar(Bar bar) {
-    return false;
-    // return barDao.deleteBar(bar);
+  public void deleteBar(Bar bar) {
+    barDao.delete(bar);
   }
 
-  public List<String> searchTickersByChars(String tickerNamePart) {
-    return null;
-    // return barDao.searchTickersByChars(tickerNamePart);
+  public List<String> searchTickersByChars(String tickerNameId) {
+    List<Bar> barData = barDao.findByWatchListTickerIdContaining(tickerNameId);
+    List<String> stockSymbols = new ArrayList<>();
+    for (Bar bar : barData) {
+      stockSymbols.add(bar.getWatchListTicker().getInstId());
+    }
+    return stockSymbols;
   }
 
 }

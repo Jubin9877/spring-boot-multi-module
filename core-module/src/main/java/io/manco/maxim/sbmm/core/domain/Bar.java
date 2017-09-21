@@ -18,7 +18,7 @@ public class Bar implements Serializable {
   private Integer mdId;
 
   @ManyToOne
-  private WatchListDesc watchList;
+  private WatchListTicker watchListTicker;
 
   private int barSize;
 
@@ -42,12 +42,12 @@ public class Bar implements Serializable {
     this.mdId = mdId;
   }
 
-  public WatchListDesc getWatchList() {
-    return watchList;
+  public WatchListTicker getWatchListTicker() {
+    return watchListTicker;
   }
 
-  public void setWatchList(WatchListDesc watchList) {
-    this.watchList = watchList;
+  public void setWatchListTicker(WatchListTicker watchListTicker) {
+    this.watchListTicker = watchListTicker;
   }
 
   public int getBarSize() {
@@ -108,9 +108,8 @@ public class Bar implements Serializable {
 
   @Override
   public String toString() {
-    return "MarketData [id=" + mdId + ", watchList=" + watchList + ", barSize=" + barSize + ", open="
-        + open + ", high=" + high + ", low=" + low + ", close=" + close + ", volume=" + volume
-        + ", logInfo=" + logInfo + "]";
+    return "MarketData [id=" + mdId + ", barSize=" + barSize + ", open=" + open + ", high=" + high
+        + ", low=" + low + ", close=" + close + ", volume=" + volume + ", logInfo=" + logInfo + "]";
   }
 
 }
