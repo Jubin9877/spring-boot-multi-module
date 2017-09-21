@@ -45,7 +45,7 @@ public class Account implements Serializable, UserDetails {
 
   private String creationDate;
 
-  @OneToMany
+  @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
   private List<WatchListDesc> watchLists;
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
