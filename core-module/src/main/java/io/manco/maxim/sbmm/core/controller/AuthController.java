@@ -1,13 +1,13 @@
 package io.manco.maxim.sbmm.core.controller;
 
-import java.util.Date;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.RememberMeAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,5 +51,70 @@ public class AuthController {
 		}
 		return targetUrl;
 	}
+	
+	 @RequestMapping(value = {"/", "/welcome**"}, method = RequestMethod.GET)
+	  public ModelAndView defaultPage() {
+	    ModelAndView model = new ModelAndView();
+	    model.addObject("title", "Spring Security Remember Me");
+	    model.addObject("message", "This is default page!");
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    if (auth.getPrincipal().equals("anonymousUser")) {
+	      model.setViewName("login");
+	    } else {
+	      model.setViewName("redirect:" + "/admin/list-accounts");
+	    }
+	    return model;
+	  }
+
+	  @RequestMapping(value = {"/admin/search-auth"}, method = RequestMethod.GET)
+	  public String searchPage1() {
+	    return "search-auth";
+	  }
+
+	  @RequestMapping(value = "/admin**", method = RequestMethod.GET)
+	  public ModelAndView adminPage() {
+	    ModelAndView model = new ModelAndView();
+	    model.addObject("title", "Spring Security Remember Me");
+	    model.addObject("message", "This page is for ROLE_ADMIN only!");
+	    model.setViewName("admin");
+	    return model;
+	  }
+
+	  @RequestMapping(value = "/logout**", method = RequestMethod.GET)
+	  public String logOut() {
+	    return "redirect:login";
+	  }
+
+	  @GetMapping(value = "/ajax-stock")
+	  public String ajaxStock() {
+	    return "ajax-stock";
+	  }
+
+	  @RequestMapping(value = "/admin/update**", method = RequestMethod.GET)
+	  public ModelAndView updatePage(HttpServletRequest request) {
+	    ModelAndView model = new ModelAndView();
+	    if (isRememberMeAuthenticated()) {
+	      //send login for update
+	      setRememberMeTargetUrlToSession(request);
+	      model.addObject("loginUpdate", true);
+	      model.setViewName("/login");
+	    } else {
+	      model.setViewName("update");
+	    }
+	    return model;
+	  }
+
+	  private boolean isRememberMeAuthenticated() {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    return authentication != null && RememberMeAuthenticationToken.
+	      class.isAssignableFrom(authentication.getClass());
+	  }
+
+	  private void setRememberMeTargetUrlToSession(HttpServletRequest request) {
+	    HttpSession session = request.getSession(false);
+	    if (session != null) {
+	      session.setAttribute("targetUrl", "/admin/update");
+	    }
+	  }
 
 }

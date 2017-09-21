@@ -18,11 +18,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import io.manco.maxim.sbmm.core.domain.Account;
 import io.manco.maxim.sbmm.core.service.AccountService;
+import io.manco.maxim.sbmm.core.service.WatchListService;
 
 @Controller
 public class AccountController {
   @Autowired
   private AccountService service;
+  
+  @Autowired
+  private WatchListService watchListService;
 
   @GetMapping(value = "/admin/list-accounts")
   public String showAccounts(ModelMap model) {
@@ -115,12 +119,12 @@ public class AccountController {
     return "uploadStatus";
   }
 
-  // TODO :: This is pending for Watchlist entity.
-  // @RequestMapping(value = "/view-account", method = RequestMethod.GET)
-  // public String viewAccount(ModelMap model, @RequestParam int id) {
-  // Account account = service.retrieveAccount(id);
-  // model.addAttribute("watchLists", account.getAttachedWatchedLists());
-  // model.addAttribute("account", account);
-  // return "view-account";
-  // }
+  @GetMapping(value = "/view-account")
+  public String viewAccount(ModelMap model, @RequestParam int id) {
+    Account account = service.retrieveAccount(id);
+    Object accountWatchList = watchListService.getWatchListForAccount(id);
+    model.addAttribute("watchLists", accountWatchList);
+    model.addAttribute("account", account);
+    return "view-account";
+  }
 }

@@ -9,16 +9,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class MarketData implements Serializable {
+public class Bar implements Serializable {
 
   private static final long serialVersionUID = 8603664627443524436L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+  private Integer mdId;
 
   @ManyToOne
-  private WatchList watchList;
+  private WatchListDesc watchList;
 
   private int barSize;
 
@@ -34,19 +34,19 @@ public class MarketData implements Serializable {
 
   private String logInfo;
 
-  public Integer getId() {
-    return id;
+  public Integer getMdId() {
+    return mdId;
   }
 
-  public void setId(Integer id) {
-    this.id = id;
+  public void setMdId(Integer mdId) {
+    this.mdId = mdId;
   }
 
-  public WatchList getWatchList() {
+  public WatchListDesc getWatchList() {
     return watchList;
   }
 
-  public void setWatchList(WatchList watchList) {
+  public void setWatchList(WatchListDesc watchList) {
     this.watchList = watchList;
   }
 
@@ -108,7 +108,7 @@ public class MarketData implements Serializable {
 
   @Override
   public String toString() {
-    return "MarketData [id=" + id + ", watchList=" + watchList + ", barSize=" + barSize + ", open="
+    return "MarketData [id=" + mdId + ", watchList=" + watchList + ", barSize=" + barSize + ", open="
         + open + ", high=" + high + ", low=" + low + ", close=" + close + ", volume=" + volume
         + ", logInfo=" + logInfo + "]";
   }

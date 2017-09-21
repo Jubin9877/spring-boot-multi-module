@@ -14,8 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -45,8 +45,8 @@ public class Account implements Serializable, UserDetails {
 
   private String creationDate;
 
-  @Transient
-  private List<WatchList> watchlists;
+  @OneToMany
+  private List<WatchListDesc> watchLists;
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinTable(name = "user_roles",
@@ -102,12 +102,12 @@ public class Account implements Serializable, UserDetails {
     this.image = image;
   }
 
-  public List<WatchList> getWatchlists() {
-    return watchlists;
+  public List<WatchListDesc> getWatchLists() {
+    return watchLists;
   }
 
-  public void setWatchlists(List<WatchList> watchlists) {
-    this.watchlists = watchlists;
+  public void setWatchLists(List<WatchListDesc> watchLists) {
+    this.watchLists = watchLists;
   }
 
   public boolean isEnable() {

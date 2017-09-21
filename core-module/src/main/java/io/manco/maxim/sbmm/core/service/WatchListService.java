@@ -1,44 +1,66 @@
 package io.manco.maxim.sbmm.core.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import io.manco.maxim.sbmm.core.domain.WatchList;
+import io.manco.maxim.sbmm.core.domain.Account;
+import io.manco.maxim.sbmm.core.domain.WatchListDesc;
+import io.manco.maxim.sbmm.core.domain.WatchListTicker;
 import io.manco.maxim.sbmm.core.repository.WatchListRepository;
+import io.manco.maxim.sbmm.core.repository.WatchListTickerRepository;
 
 public class WatchListService {
 
   @Autowired
   private WatchListRepository watchListDescDao;
 
-  public List<WatchList> getWatchListForAccount(int id) {
-    return watchListDescDao.getDataSetsAttachedToAcc(id);
+  @Autowired
+  private WatchListTickerRepository tickerRepository;
+
+  public List<WatchListDesc> getWatchListForAccount(Integer accountId) {
+    return watchListDescDao.findByAccountId(accountId);
+  }
+  
+  public List<WatchListDesc> getWatchListForAccount(Account account) {
+    return watchListDescDao.findByAccount(account);
   }
 
-  public List<String> getStockSymbolsList(int id) {
-    return watchListDescDao.getAllStockSymbols(id);
+  public List<String> getAllStockSymbols(Integer watchListDescId) {
+    List<WatchListTicker> tickers = tickerRepository.findByWatchListId(watchListDescId);
+    List<String> stockSymbols = new ArrayList<>();
+    for (WatchListTicker watchListTicker : tickers) {
+      stockSymbols.add(watchListTicker.getInstId());
+    }
+
+    return stockSymbols;
   }
 
-  public boolean delete(int accId, int watchListId) {
-    return watchListDescDao.deleteWatchListDesc(watchListId, accId);
+  public List<String> getStockSymbolsList(Integer id) {
+    return getAllStockSymbols(id);
   }
 
-  public void delete(WatchList watchListDesc) {
+  public WatchListDesc getWatchListDesc(Integer watchlistId, Integer accountId) {
+    return watchListDescDao.findByAccountIdAndWatchListId(watchlistId, accountId);
+  }
+
+  public void delete(Integer accId, Integer watchListId) {
+    WatchListDesc watchListDesc = getWatchListDesc(watchListId, accId);
     watchListDescDao.delete(watchListDesc);
   }
 
-  public boolean create(WatchList watchListDesc) {
-    watchListDesc.setStockSymbolsListFromOperationList(watchListDesc.getOperationParameterses());
-    return watchListDescDao.createWatchListDesc(watchListDesc);
+  public void delete(WatchListDesc watchListDesc) {
+    watchListDescDao.delete(watchListDesc);
   }
 
-  public WatchList update(WatchList watchListDesc) {
+  public WatchListDesc create(WatchListDesc watchListDesc) {
+    watchListDesc.setStockSymbolsListFromOperationList(watchListDesc.getOperationParameterses());
     return watchListDescDao.save(watchListDesc);
   }
 
-  public WatchList getWatchListDesc(int dsId, int accId) {
-    return watchListDescDao.getWatchListDesc(dsId, accId);
+  public WatchListDesc update(WatchListDesc watchListDesc) {
+    return watchListDescDao.save(watchListDesc);
   }
 
 }

@@ -1,38 +1,32 @@
 package io.manco.maxim.sbmm.core.domain;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class WatchListTicker {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+  private String instId;
 
-  private WatchList watchList;
+  @ManyToOne
+  private WatchListDesc watchList;
 
-  public Integer getId() {
-    return id;
+  public String getInstId() {
+    return instId;
   }
 
-  public void setId(Integer id) {
-    this.id = id;
+  public void setInstId(String instId) {
+    this.instId = instId;
   }
 
-  public WatchList getWatchList() {
+  public WatchListDesc getWatchList() {
     return watchList;
   }
 
-  public void setWatchList(WatchList watchList) {
+  public void setWatchList(WatchListDesc watchList) {
     this.watchList = watchList;
-  }
-
-  @Override
-  public String toString() {
-    return "WatchListTicker [id=" + id + ", watchList=" + watchList + "]";
   }
 
 }

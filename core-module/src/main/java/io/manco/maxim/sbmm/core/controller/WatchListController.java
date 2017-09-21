@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import io.manco.maxim.sbmm.core.domain.WatchList;
+import io.manco.maxim.sbmm.core.domain.WatchListDesc;
 import io.manco.maxim.sbmm.core.service.WatchListService;
 
 @Controller
@@ -31,15 +31,15 @@ public class WatchListController {
 
   @GetMapping(value = "/add-watchlist")
   public String addWatchList(ModelMap model, @RequestParam int id) {
-    LOGGER.info("Add request Watchlist with id : {} ",id);
-    WatchList watchList = new WatchList();
-    watchList.setId(id);
+    LOGGER.info("Add request Watchlist with id : {} ", id);
+    WatchListDesc watchList = new WatchListDesc();
+    watchList.setWatchListId(id);
     model.addAttribute("theWatchListDesc", watchList);
     return "lazyRowLoad";
   }
 
   @PostMapping(value = "/lazyRowAdd.web")
-  public String lazyRowAdd(@ModelAttribute("theWatchListDesc") WatchList watchList,
+  public String lazyRowAdd(@ModelAttribute("theWatchListDesc") WatchListDesc watchList,
       @ModelAttribute("username1") String watchlistName, @RequestParam("id") int accId) {
     LOGGER.info("lazy row add for account : {}", accId);
     watchList.setAccountId(accId);
