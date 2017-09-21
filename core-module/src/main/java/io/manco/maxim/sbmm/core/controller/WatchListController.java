@@ -22,29 +22,27 @@ public class WatchListController {
   @Autowired
   private WatchListService service;
 
-  @RequestMapping(value = "/view-watchlist", method = RequestMethod.GET)
-  public String viewAccount(ModelMap model, @RequestParam int id) {
-    model.addAttribute("stockSymbolsList", service.getStockSymbolsList(id));
-    model.addAttribute("watchListId", id);
-    return "view-watchlist";
-  }
-
-  @GetMapping(value = "/add-watchlist")
-  public String addWatchList(ModelMap model, @RequestParam int id) {
-    LOGGER.info("Add request Watchlist with id : {} ",id);
-    WatchList watchList = new WatchList();
-    watchList.setId(id);
-    model.addAttribute("theWatchListDesc", watchList);
-    return "lazyRowLoad";
-  }
-
-  @PostMapping(value = "/lazyRowAdd.web")
-  public String lazyRowAdd(@ModelAttribute("theWatchListDesc") WatchList watchList,
-      @ModelAttribute("username1") String watchlistName, @RequestParam("id") int accId) {
-    LOGGER.info("lazy row add for account : {}", accId);
-    watchList.setAccountId(accId);
-    watchList.setWatchListName(watchlistName);
-    service.create(watchList);
-    return "redirect:/view-account?id=2";
-  }
+//  @RequestMapping(value = "/view-watchlist", method = RequestMethod.GET)
+//  public String viewAccount(ModelMap model, @RequestParam int id) {
+//    model.addAttribute("stockSymbolsList", service.getStockSymbolsList(id));
+//    model.addAttribute("watchListId", id);
+//    return "view-watchlist";
+//  }
+//
+//  @GetMapping(value = "/add-watchlist")
+//  public String addWatchList(ModelMap model, @RequestParam int id) {
+//    LOGGER.info("Add request Watchlist with id : {} ",id);
+//    WatchList watchList = new WatchList();
+//    watchList.setId(id);
+//    model.addAttribute("theWatchListDesc", watchList);
+//    return "lazyRowLoad";
+//  }
+//
+//  @PostMapping(value = "/lazyRowAdd.web")
+//  public String lazyRowAdd(@ModelAttribute("theWatchListDesc") WatchList watchList,
+//      @ModelAttribute("username1") String watchlistName, @RequestParam("id") int accId) {
+//    LOGGER.info("lazy row add for account : {}", accId);
+//    service.create(watchList, accId , watchlistName);
+//    return "redirect:/view-account?id=2";
+//  }
 }
