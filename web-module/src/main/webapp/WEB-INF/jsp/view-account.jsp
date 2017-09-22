@@ -4,21 +4,21 @@
 
 <div class="container">
   <h3>Hi <c:out value="${account.getAccountName()}"/></h3>
-  <strong>Your Email</strong>: <c:out value="${account.getEMail()}"/><br>
+  <strong>Your Email</strong>: <c:out value="${account.getEmail()}"/><br>
   <strong>Additional Info</strong>: <c:out value="${account.getAdditionalInfo()}"/><br>
-  <img src="${pageContext.servletContext.contextPath}/getImage?accId=${account.getId()}" height="111px" width="111px"/>
+  <img src="${pageContext.servletContext.contextPath}/getImage?accId=${account.getAccountId()}" height="111px" width="111px"/>
 
   <form:form modelAttribute="account" action="uploadImage" method="post"
              enctype="multipart/form-data">
     <input type="file" name="image"/><br/><br/>
     <input type="submit"/>
-    <input type="hidden" name="id" value=<c:out value="${account.getId()}"/>>
+    <input type="hidden" name="id" value=<c:out value="${account.getAccountId()}"/>>
   </form:form>
   <strong>Available data sets</strong>:
   <h3>Available DataSets for current account </h3>
   <div>
     <a type="button" class="btn btn-success"
-       href="<c:url value="/add-watchlist?id=${account.getId()}"/>">Add New watchlist</a>
+       href="<c:url value="/add-watchlist?id=${account.getAccountId()}"/>">Add New watchlist</a>
   </div>
   <hr size="4" color="gray"/>
 
@@ -42,7 +42,7 @@
     <input type="submit" value="Logout">
   </form>
 
-  <form action="search.jsp" method="get">
+  <form action="/search" method="get">
     <input type="submit" value="search">
   </form>
 

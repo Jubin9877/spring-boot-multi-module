@@ -21,7 +21,7 @@
 <div style="text-align: center">
     <a href="${contextPath}/location" style="font-size: 30px">Click here to get organization
     detail for your location</a>
-
+	<br/>
     <a href="${contextPath}/accountName" style="font-size: 30px">Click here to get organization
         detail for your location</a>
 </div>

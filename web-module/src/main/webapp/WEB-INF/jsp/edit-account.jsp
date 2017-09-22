@@ -15,7 +15,7 @@
   <div class="container">
 
     <form:form method="post" modelAttribute="account">
-      <form:hidden path="id"/>
+      <form:hidden path="accountId"/>
       <fieldset class="form-group">
         <form:label path="accountName">Account Name</form:label>
         <form:input path="accountName" type="text" class="form-control"
@@ -23,10 +23,10 @@
         <form:errors path="accountName" cssClass="text-warning"/>
       </fieldset>
       <fieldset class="form-group">
-        <form:label path="eMail">eMail</form:label>
-        <form:input path="eMail" type="text" class="form-control"
+        <form:label path="email">Email</form:label>
+        <form:input path="email" type="text" class="form-control"
                     required="required"/>
-        <form:errors path="eMail" cssClass="text-warning"/>
+        <form:errors path="email" cssClass="text-warning"/>
       </fieldset>
       <fieldset class="form-group">
         <form:label path="additionalInfo">additionalInfo</form:label>

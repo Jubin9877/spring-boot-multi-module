@@ -53,16 +53,20 @@ public class AccountController {
     Account account = new Account();
     account.setAccountName(username1);
     service.createAccount(account);
-    return "redirect:/list-accounts";
+    return "redirect:/admin/list-accounts";
   }
 
   @PostMapping(value = "/processAddAccount")
   public String createAccountPost2(
-      @RequestParam(value = "username1", required = false) String username1) {
+      @RequestParam(value = "username1", required = false) String username1,
+      @RequestParam(value = "password1", required = false) String password1,
+      @RequestParam(value = "email1", required = false) String email1) {
     Account account = new Account();
+    account.setEmail(email1);
     account.setAccountName(username1);
+    account.setPassword(password1);
     service.createAccount(account);
-    return "redirect:/list-accounts";
+    return "redirect:/admin/list-accounts";
   }
 
   @PostMapping(value = "/add-account")
@@ -70,13 +74,13 @@ public class AccountController {
       @RequestParam(value = "username1", required = false) String username1) {
     System.out.println(account.getAdditionalInfo());
     service.createAccount(account);
-    return "redirect:/list-accounts";
+    return "redirect:/admin/list-accounts";
   }
 
   @GetMapping(value = "/delete-account")
   public String deleteAccount(@RequestParam int id) {
     service.delete(id);
-    return "redirect:/list-accounts";
+    return "redirect:/admin/list-accounts";
   }
 
   @GetMapping(value = "/edit-account")
@@ -121,5 +125,10 @@ public class AccountController {
     model.addAttribute("watchLists", accountWatchList);
     model.addAttribute("account", account);
     return "view-account";
+  }
+  
+  @GetMapping(value = "/home")
+  public String viewHome() {
+    return "other-jsp/home";
   }
 }
