@@ -4,35 +4,37 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "wl_tickers")
 public class WatchListTicker {
 
-  @Id
-  private String instId;
+	@Id
+	private String instId;
 
-  @ManyToOne
-  @JoinColumn(name = "watch_list_id")
-  private WatchListDesc watchList;
+	@ManyToOne
+	@JoinColumn(name = "watch_list_id")
+	private WatchListDesc watchList;
 
-  public String getInstId() {
-    return instId;
-  }
+	public String getInstId() {
+		return instId;
+	}
 
-  public void setInstId(String instId) {
-    this.instId = instId;
-  }
+	public void setInstId(String instId) {
+		this.instId = instId;
+	}
 
-  public WatchListDesc getWatchList() {
-    return watchList;
-  }
+	public WatchListDesc getWatchList() {
+		return watchList;
+	}
 
-  public void setWatchList(WatchListDesc watchList) {
-    this.watchList = watchList;
-  }
+	public void setWatchList(WatchListDesc watchList) {
+		this.watchList = watchList;
+	}
 
-  @Override
-  public String toString() {
-    return "WatchListTicker [instId=" + instId + ", watchList=" + watchList + "]";
-  }
+	@Override
+	public String toString() {
+		return "WatchListTicker [instId=" + instId + ", watchList=" + watchList + "]";
+	}
 }

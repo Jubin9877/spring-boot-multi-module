@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import io.manco.maxim.sbmm.core.domain.Account;
 import io.manco.maxim.sbmm.core.domain.WatchListDesc;
 import io.manco.maxim.sbmm.core.domain.WatchListTicker;
+import io.manco.maxim.sbmm.core.repository.AccountRepository;
 import io.manco.maxim.sbmm.core.repository.WatchListRepository;
 import io.manco.maxim.sbmm.core.repository.WatchListTickerRepository;
 
+@Service
 public class WatchListService {
 
   @Autowired
@@ -18,9 +21,12 @@ public class WatchListService {
 
   @Autowired
   private WatchListTickerRepository tickerRepository;
+  
+  @Autowired
+  private AccountRepository accountRepository;
 
   public List<WatchListDesc> getWatchListForAccount(Integer accountId) {
-    return watchListDescDao.findByAccountId(accountId);
+    return watchListDescDao.findByAccountAccountId(accountId);
   }
   
   public List<WatchListDesc> getWatchListForAccount(Account account) {
@@ -28,7 +34,7 @@ public class WatchListService {
   }
 
   public List<String> getAllStockSymbols(Integer watchListDescId) {
-    List<WatchListTicker> tickers = tickerRepository.findByWatchListId(watchListDescId);
+    List<WatchListTicker> tickers = tickerRepository.findByWatchListWatchListId(watchListDescId);
     List<String> stockSymbols = new ArrayList<>();
     for (WatchListTicker watchListTicker : tickers) {
       stockSymbols.add(watchListTicker.getInstId());
@@ -42,7 +48,7 @@ public class WatchListService {
   }
 
   public WatchListDesc getWatchListDesc(Integer watchlistId, Integer accountId) {
-    return watchListDescDao.findByAccountIdAndWatchListId(watchlistId, accountId);
+    return watchListDescDao.findByAccountAccountIdAndWatchListId(watchlistId, accountId);
   }
 
   public void delete(Integer accId, Integer watchListId) {
@@ -54,7 +60,11 @@ public class WatchListService {
     watchListDescDao.delete(watchListDesc);
   }
 
-  public WatchListDesc create(WatchListDesc watchListDesc) {
+  public WatchListDesc create(WatchListDesc watchListDesc, Integer accId, String watchlistName) {
+  	
+  	Account account = accountRepository.getOne(accId);
+  	watchListDesc.setAccount(account);
+  	watchListDesc.setWatchListName(watchlistName);
     watchListDesc.setStockSymbolsListFromOperationList(watchListDesc.getOperationParameterses());
     return watchListDescDao.save(watchListDesc);
   }

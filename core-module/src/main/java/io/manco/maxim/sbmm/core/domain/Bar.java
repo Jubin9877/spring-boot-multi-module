@@ -1,115 +1,145 @@
 package io.manco.maxim.sbmm.core.domain;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
+@Table(name = "market_data")
 public class Bar implements Serializable {
 
-  private static final long serialVersionUID = 8603664627443524436L;
+	private static final long serialVersionUID = 8603664627443524436L;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer mdId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer mdId;
 
-  @ManyToOne
-  private WatchListTicker watchListTicker;
+	@ManyToOne
+	@JoinColumn(name="inst_id", nullable=false)
+	private WatchListTicker watchListTicker;
 
-  private int barSize;
+	@Transient
+	private Integer barSize;
 
-  private double open;
+	private String ticker;
 
-  private double high;
+	private Float open;
 
-  private double low;
+	private Float high;
 
-  private double close;
+	private Float low;
 
-  private long volume;
+	private Float close;
 
-  private String logInfo;
+	@Column(name = "vol")
+	private Integer volume;
 
-  public Integer getMdId() {
-    return mdId;
-  }
+	@Column(name = "additional_info")
+	private String logInfo;
 
-  public void setMdId(Integer mdId) {
-    this.mdId = mdId;
-  }
+	private Timestamp date;
 
-  public WatchListTicker getWatchListTicker() {
-    return watchListTicker;
-  }
+	public Integer getMdId() {
+		return mdId;
+	}
 
-  public void setWatchListTicker(WatchListTicker watchListTicker) {
-    this.watchListTicker = watchListTicker;
-  }
+	public void setMdId(Integer mdId) {
+		this.mdId = mdId;
+	}
 
-  public int getBarSize() {
-    return barSize;
-  }
+	public WatchListTicker getWatchListTicker() {
+		return watchListTicker;
+	}
 
-  public void setBarSize(int barSize) {
-    this.barSize = barSize;
-  }
+	public void setWatchListTicker(WatchListTicker watchListTicker) {
+		this.watchListTicker = watchListTicker;
+	}
 
-  public double getOpen() {
-    return open;
-  }
+	public Integer getBarSize() {
+		return barSize;
+	}
 
-  public void setOpen(double open) {
-    this.open = open;
-  }
+	public void setBarSize(Integer barSize) {
+		this.barSize = barSize;
+	}
 
-  public double getHigh() {
-    return high;
-  }
+	public float getOpen() {
+		return open;
+	}
 
-  public void setHigh(double high) {
-    this.high = high;
-  }
+	public void setOpen(Float open) {
+		this.open = open;
+	}
 
-  public double getLow() {
-    return low;
-  }
+	public float getHigh() {
+		return high;
+	}
 
-  public void setLow(double low) {
-    this.low = low;
-  }
+	public void setHigh(Float high) {
+		this.high = high;
+	}
 
-  public double getClose() {
-    return close;
-  }
+	public float getLow() {
+		return low;
+	}
 
-  public void setClose(double close) {
-    this.close = close;
-  }
+	public void setLow(Float low) {
+		this.low = low;
+	}
 
-  public long getVolume() {
-    return volume;
-  }
+	public float getClose() {
+		return close;
+	}
 
-  public void setVolume(long volume) {
-    this.volume = volume;
-  }
+	public void setClose(Float close) {
+		this.close = close;
+	}
 
-  public String getLogInfo() {
-    return logInfo;
-  }
+	public long getVolume() {
+		return volume;
+	}
 
-  public void setLogInfo(String logInfo) {
-    this.logInfo = logInfo;
-  }
+	public void setVolume(Integer volume) {
+		this.volume = volume;
+	}
 
-  @Override
-  public String toString() {
-    return "MarketData [id=" + mdId + ", barSize=" + barSize + ", open=" + open + ", high=" + high
-        + ", low=" + low + ", close=" + close + ", volume=" + volume + ", logInfo=" + logInfo + "]";
-  }
+	public String getLogInfo() {
+		return logInfo;
+	}
+
+	public void setLogInfo(String logInfo) {
+		this.logInfo = logInfo;
+	}
+
+	public String getTicker() {
+		return ticker;
+	}
+
+	public void setTicker(String ticker) {
+		this.ticker = ticker;
+	}
+
+	public Timestamp getDate() {
+		return date;
+	}
+
+	public void setDate(Timestamp date) {
+		this.date = date;
+	}
+
+	@Override
+	public String toString() {
+		return "MarketData [id=" + mdId + ", barSize=" + barSize + ", open=" + open + ", high=" + high + ", low=" + low
+		    + ", close=" + close + ", volume=" + volume + ", logInfo=" + logInfo + "]";
+	}
 
 }

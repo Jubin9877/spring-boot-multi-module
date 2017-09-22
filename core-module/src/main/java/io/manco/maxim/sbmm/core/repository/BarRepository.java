@@ -8,10 +8,10 @@ import io.manco.maxim.sbmm.core.domain.Bar;
 
 public interface BarRepository extends JpaRepository<Bar, Integer> {
 
-  List<Bar> findByWatchListTickerId(String watchListTickerId);
+  List<Bar> findByWatchListTickerInstId(String watchListTickerId);
 
-  List<Bar> findByWatchListTickerIdContaining(String tickerNameId);
+  List<Bar> findByWatchListTickerInstIdContaining(String tickerNameId);
 
-  Bar findByMdIdAndWatchListTickerId(Integer barId, String instId);
+  Bar findByMdIdAndWatchListTickerInstId(Integer barId, String instId);
 
 }

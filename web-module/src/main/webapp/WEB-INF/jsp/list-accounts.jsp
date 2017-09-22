@@ -61,19 +61,19 @@
 
       <tr>
         <td> ${currAccount.getAccountName()} </td>
-        <td> ${currAccount.getEMail()} </td>
+        <td> ${currAccount.getEmail()} </td>
         <td> ${currAccount.getAdditionalInfo()} </td>
         <td id="data"> ${currAccount.getCreationDate()} </td>
         <td>
 
           <a type="button" class="btn btn-primary"
-             href="<c:url value="/view-account?id=${currAccount.id}"/>">View</a>
+             href="<c:url value="/view-account?id=${currAccount.getAccountId()}"/>">View</a>
 
           <a type="button" class="btn btn-primary"
-             href="<c:url value="/edit-account?id=${currAccount.id}"/>">Edit</a>
+             href="<c:url value="/edit-account?id=${currAccount.getAccountId()}"/>">Edit</a>
 
           <a type="button" class="btn btn-warning"
-             href="<c:url value="/delete-account?id=${currAccount.id}"/>"
+             href="<c:url value="/delete-account?id=${currAccount.getAccountId()}"/>"
              onclick="if (!(confirm('Are you sure you want to delete this account?')))
                  return false">
             Delete</a>

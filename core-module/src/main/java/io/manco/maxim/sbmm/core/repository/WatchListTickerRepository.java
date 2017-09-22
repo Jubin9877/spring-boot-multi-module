@@ -8,6 +8,6 @@ import io.manco.maxim.sbmm.core.domain.WatchListTicker;
 
 public interface WatchListTickerRepository extends JpaRepository<WatchListTicker, String> {
 
-  List<WatchListTicker> findByWatchListId(Integer watchListId);
+  List<WatchListTicker> findByWatchListWatchListId(Integer watchListId);
 
 }

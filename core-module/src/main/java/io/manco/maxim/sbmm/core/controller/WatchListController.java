@@ -42,9 +42,7 @@ public class WatchListController {
   public String lazyRowAdd(@ModelAttribute("theWatchListDesc") WatchListDesc watchList,
       @ModelAttribute("username1") String watchlistName, @RequestParam("id") int accId) {
     LOGGER.info("lazy row add for account : {}", accId);
-    watchList.setAccountId(accId);
-    watchList.setWatchListName(watchlistName);
-    service.create(watchList);
+    service.create(watchList, accId, watchlistName);
     return "redirect:/view-account?id=2";
   }
 }

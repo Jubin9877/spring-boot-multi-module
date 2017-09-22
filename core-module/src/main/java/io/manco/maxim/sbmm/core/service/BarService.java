@@ -16,11 +16,11 @@ public class BarService {
   private BarRepository barDao;
 
   public List<Bar> getBarList(String watchListTickerId) {
-    return barDao.findByWatchListTickerId(watchListTickerId);
+    return barDao.findByWatchListTickerInstId(watchListTickerId);
   }
 
   public Bar getSingleBar(Integer barId, String instId) {
-    return barDao.findByMdIdAndWatchListTickerId(barId, instId);
+    return barDao.findByMdIdAndWatchListTickerInstId(barId, instId);
   }
 
   public Bar update(Bar bar) {
@@ -36,7 +36,7 @@ public class BarService {
   }
 
   public List<String> searchTickersByChars(String tickerNameId) {
-    List<Bar> barData = barDao.findByWatchListTickerIdContaining(tickerNameId);
+    List<Bar> barData = barDao.findByWatchListTickerInstIdContaining(tickerNameId);
     List<String> stockSymbols = new ArrayList<>();
     for (Bar bar : barData) {
       stockSymbols.add(bar.getWatchListTicker().getInstId());

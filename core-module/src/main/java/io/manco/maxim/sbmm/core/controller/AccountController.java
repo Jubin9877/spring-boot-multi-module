@@ -114,11 +114,6 @@ public class AccountController {
     return "redirect:/uploadStatus";
   }
 
-  @GetMapping("/uploadStatus")
-  public String uploadStatus() {
-    return "uploadStatus";
-  }
-
   @GetMapping(value = "/view-account")
   public String viewAccount(ModelMap model, @RequestParam int id) {
     Account account = service.retrieveAccount(id);
