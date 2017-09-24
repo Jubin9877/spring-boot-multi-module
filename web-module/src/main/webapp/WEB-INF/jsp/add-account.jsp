@@ -67,10 +67,12 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="additionalInfo">additionalInfo</label>
-							<form:input path="additionalInfo" type="text"
-								class="form-control" required="required" />
-							<form:errors path="additionalInfo" cssClass="text-warning" />
+							<label class="col-sm-4 control-label" for="additionalInfo">additional Info</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control"
+									id="additionalInfo1" name="additionalInfo1"
+									placeholder="Additional Info" />
+							</div>
 						</div>
 
 						<div class="form-group">

@@ -18,31 +18,37 @@ import io.manco.maxim.sbmm.core.service.WatchListService;
 @Controller
 public class WatchListController {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(WatchListController.class);
-  @Autowired
-  private WatchListService service;
+	private static final Logger LOGGER = LoggerFactory.getLogger(WatchListController.class);
+	@Autowired
+	private WatchListService service;
 
-  @RequestMapping(value = "/view-watchlist", method = RequestMethod.GET)
-  public String viewAccount(ModelMap model, @RequestParam int id) {
-    model.addAttribute("stockSymbolsList", service.getStockSymbolsList(id));
-    model.addAttribute("watchListId", id);
-    return "view-watchlist";
-  }
+	@RequestMapping(value = "/view-watchlist", method = RequestMethod.GET)
+	public String viewAccount(ModelMap model, @RequestParam int id) {
+		model.addAttribute("stockSymbolsList", service.getStockSymbolsList(id));
+		model.addAttribute("watchListId", id);
+		return "view-watchlist";
+	}
 
-  @GetMapping(value = "/add-watchlist")
-  public String addWatchList(ModelMap model, @RequestParam int id) {
-    LOGGER.info("Add request Watchlist with id : {} ", id);
-    WatchListDesc watchList = new WatchListDesc();
-    watchList.setWatchListId(id);
-    model.addAttribute("theWatchListDesc", watchList);
-    return "lazyRowLoad";
-  }
+	@GetMapping(value = "/add-watchlist")
+	public String addWatchList(ModelMap model, @RequestParam int id) {
+		LOGGER.info("Add Watchlist request for account with id : {} ", id);
+		WatchListDesc watchList = new WatchListDesc();
+		model.addAttribute("theWatchListDesc", watchList);
+		model.addAttribute("accountId", id);
+		return "lazyRowLoad";
+	}
 
-  @PostMapping(value = "/lazyRowAdd.web")
-  public String lazyRowAdd(@ModelAttribute("theWatchListDesc") WatchListDesc watchList,
-      @ModelAttribute("username1") String watchlistName, @RequestParam("id") int accId) {
-    LOGGER.info("lazy row add for account : {}", accId);
-    service.create(watchList, accId, watchlistName);
-    return "redirect:/view-account?id=2";
-  }
+	@PostMapping(value = "/lazyRowAdd.web")
+	public String lazyRowAdd(@ModelAttribute("theWatchListDesc") WatchListDesc watchListDesc,
+	    @ModelAttribute("watchListName") String watchlistName,
+	    @ModelAttribute("watchListDetails") String watchListDetails,
+	    @ModelAttribute("marketDataFrequency") Integer marketDataFrequency, @RequestParam("id") int accId) {
+		LOGGER.info("lazy row add for account : {}", accId);
+		watchListDesc.setWatchListName(watchlistName);
+		watchListDesc.setStockSymbolsListFromOperationList(watchListDesc.getOperationParameterses());
+		watchListDesc.setWatchListDetails(watchListDetails);
+		watchListDesc.setMarketDataFrequency(marketDataFrequency);
+		service.create(watchListDesc, accId);
+		return "redirect:/view-account?id=2";
+	}
 }

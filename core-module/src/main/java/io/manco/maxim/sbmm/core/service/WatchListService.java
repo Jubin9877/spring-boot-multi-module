@@ -60,12 +60,10 @@ public class WatchListService {
     watchListDescDao.delete(watchListDesc);
   }
 
-  public WatchListDesc create(WatchListDesc watchListDesc, Integer accId, String watchlistName) {
+  public WatchListDesc create(WatchListDesc watchListDesc, Integer accId) {
   	
-  	Account account = accountRepository.getOne(accId);
+  	Account account = accountRepository.findOne(accId);
   	watchListDesc.setAccount(account);
-  	watchListDesc.setWatchListName(watchlistName);
-    watchListDesc.setStockSymbolsListFromOperationList(watchListDesc.getOperationParameterses());
     return watchListDescDao.save(watchListDesc);
   }
 

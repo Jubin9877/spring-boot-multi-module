@@ -24,9 +24,6 @@ public class WatchListDesc {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer watchListId;
   
-//  @Transient
-//  private int accountId;
-  
   @ManyToOne
   @JoinColumn(name = "account_id", referencedColumnName = "account_id")
   private Account account;
@@ -85,21 +82,13 @@ public class WatchListDesc {
     this.operationParameterses = operationParameterses;
   }
 
-  public int getWatchListId() {
+  public Integer getWatchListId() {
     return watchListId;
   }
 
-  public void setWatchListId(int watchListId) {
+  public void setWatchListId(Integer watchListId) {
     this.watchListId = watchListId;
   }
-
-//  public Integer getAccountId() {
-//    return accountId;
-//  }
-//
-//  public void setAccountId(int accountId) {
-//    this.accountId = accountId;
-//  }
 
   public String getWatchListName() {
     return watchListName;
@@ -133,14 +122,6 @@ public class WatchListDesc {
   public void setDataProviders(String dataProviders) {
     this.dataProviders = dataProviders;
   }
-  
-//  public int getAccountId() {
-//		return accountId;
-//	}
-//
-//	public void setAccountId(int accountId) {
-//		this.accountId = accountId;
-//	}
 
 	public Account getAccount() {
 		return account;

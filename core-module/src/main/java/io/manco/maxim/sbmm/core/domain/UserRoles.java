@@ -10,22 +10,23 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-
 @Entity
 public class UserRoles implements Serializable {
 
-  private static final long serialVersionUID = 4880880282266891718L;
+	private static final long serialVersionUID = 4880880282266891718L;
 
-  @Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_role_id")
 	private Integer userRoleId;
-	
+
 	@ManyToOne
-	@JoinColumn(name="account_id",referencedColumnName="account_id")
+	@JoinColumn(name = "account_id", referencedColumnName = "account_id")
 	private Account account;
-	
-	@Column(name="role")
+
+	private String account_name;
+
+	@Column(name = "role")
 	private String role;
 
 	public Integer getUserRoleId() {
@@ -50,6 +51,14 @@ public class UserRoles implements Serializable {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getAccount_name() {
+		return account_name;
+	}
+
+	public void setAccount_name(String account_name) {
+		this.account_name = account_name;
 	}
 
 }

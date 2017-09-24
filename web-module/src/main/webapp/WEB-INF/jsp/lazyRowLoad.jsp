@@ -23,26 +23,26 @@
       <form:form modelAttribute="theWatchListDesc" action="lazyRowAdd.web" class="form-horizontal"
                  method="post"
                  id="lazyList">
-        <input type="hidden" name="id" value="${theWatchListDesc.getAccountId()}"/>
+        <input type="hidden" name="id" value="${accountId}"/>
         <div class="form-group">
           <form:label path="watchListName" class="col-sm-4 control-label"
                       for="watchListName">watchListName</form:label>
           <div class="col-sm-5">
-            <input class="form-control" name="username1" id="username1"/>
+            <input class="form-control" name="watchListName" id=watchListName1/>
           </div>
         </div>
         <div class="form-group">
           <form:label path="watchListDetails" class="col-sm-4 control-label"
                       for="watchListDetails">watchListDetails</form:label>
           <div class="col-sm-5">
-            <input class="form-control" name="email1" id="email1"/>
+            <input class="form-control" name="watchListDetails" id="watchListDetails1"/>
           </div>
         </div>
         <div class="form-group">
           <form:label path="marketDataFrequency" class="col-sm-4 control-label"
                       for="marketDataFrequency">marketDataFrequency</form:label>
           <div class="col-sm-5">
-            <input class="form-control"/>
+            <input class="form-control" name="marketDataFrequency" id="marketDataFrequency1"/>
           </div>
         </div>
 
@@ -63,7 +63,7 @@
         </li>
 
         <fieldset>
-          <button>Save User Details!</button>
+          <button>Save WatchList Details!</button>
         </fieldset>
       </form:form>
     </div>
