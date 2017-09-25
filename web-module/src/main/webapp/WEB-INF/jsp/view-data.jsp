@@ -68,7 +68,7 @@
         <td> ${bar.getLow()} </td>
         <td> ${bar.getClose()} </td>
         <td> ${bar.getVolume()} </td>
-        <td> ${bar.getDateTime()} </td>
+        <td> ${bar.getDate()} </td>
 
       </tr>
     </c:forEach>
