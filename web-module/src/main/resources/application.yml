@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://172.17.0.2:3306/fintech_ws_new_2
-    username: root
-    password: mysql
+    url: jdbc:mysql://us-cdbr-iron-east-05.cleardb.net:3306/heroku_83703ac4ba15791
+    username: b3386e7899d43d
+    password: 75124ef2
     driver-class-name: com.mysql.jdbc.Driver
   mvc: 
     view:
