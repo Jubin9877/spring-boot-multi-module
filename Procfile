@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar web-module/target/*.war --server.port $PORT
+web: java $JAVA_OPTS -jar web-module/target/*.war --server.port=80
