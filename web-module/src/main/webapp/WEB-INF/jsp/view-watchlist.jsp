@@ -14,7 +14,7 @@
     <tr>
       <td>Stock : ${theStock}  </td>
       <td> <a type="button" class="btn btn-primary"
-              href="<c:url value="/view-data?watchListId=${watchListId}&stockSymbol=${theStock}"/>">View</a></td>
+              href="<c:url value="/signed/view-data?watchListId=${watchListId}&stockSymbol=${theStock}"/>">View</a></td>
     </tr>
 
   </c:forEach>

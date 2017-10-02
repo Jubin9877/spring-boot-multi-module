@@ -6,6 +6,8 @@ import java.io.InputStream;
 
 import javax.servlet.ServletException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,87 +24,96 @@ import io.manco.maxim.sbmm.core.service.WatchListService;
 
 @Controller
 public class AccountController {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
+
 	@Autowired
 	private AccountService service;
 
 	@Autowired
 	private WatchListService watchListService;
 
-	@GetMapping(value = "/admin/list-accounts")
+	@GetMapping(value = "/signed/list-accounts")
 	public String showAccounts(ModelMap model) {
+		LOGGER.info("Request to get all account.");
 		model.addAttribute("ACCOUNT_LIST", service.getAccountList());
 		return "list-accounts";
 	}
 
-	@PostMapping(value = "/edit-account")
+	@PostMapping(value = "/signed/edit-account")
 	public String putEditedAccountToDb(Account account, RedirectAttributes redirectAttributes) {
+	  LOGGER.info("Request to edit account details.");
 		service.updateAccount(account);
 		redirectAttributes.addAttribute("success", "true");
-		return "redirect:/admin/list-accounts";
+		return "redirect:/signed/list-accounts";
 	}
 
-	@GetMapping(value = "/add-account")
+	@GetMapping(value = "/signed/add-account")
 	public String createNewAccountGet(ModelMap model) {
+		LOGGER.info("Request to add  account.");
 		model.addAttribute("account", new Account());
 		return "add-account";
 	}
 
-	@PostMapping(value = "/processAddAccount1")
+	@PostMapping(value = "/signed/processAddAccount1")
 	public String createAccountPost1(@RequestParam(value = "username1", required = false) String username1) {
+		LOGGER.info("Request to Process add account1.");
 		Account account = new Account();
 		account.setAccountName(username1);
 		service.createAccount(account);
-		return "redirect:/admin/list-accounts";
+		return "redirect:/signed/list-accounts";
 	}
 
-	@PostMapping(value = "/processAddAccount")
-	public String createAccountPost2(
-			@RequestParam(value = "username1", required = false) String username1,
-	    @RequestParam(value = "password1", required = false) String password1,
-	    @RequestParam(value = "email1", required = false) String email1,
-	    @RequestParam(value = "additionalInfo1", required = false) String additionalInfo1) {
+	@PostMapping(value = "/signed/processAddAccount")
+	public String createAccountPost2(@RequestParam(value = "username1", required = false) String username1,
+			@RequestParam(value = "password1", required = false) String password1,
+			@RequestParam(value = "email1", required = false) String email1,
+			@RequestParam(value = "additionalInfo1", required = false) String additionalInfo1) {
+		LOGGER.info("Request to Process add account.");
 		Account account = new Account();
 		account.setEmail(email1);
 		account.setAccountName(username1);
 		account.setPassword(password1);
 		account.setAdditionalInfo(additionalInfo1);
 		service.createAccount(account);
-		return "redirect:/admin/list-accounts";
+		return "redirect:/signed/list-accounts";
 	}
 
-	@PostMapping(value = "/add-account")
+	@PostMapping(value = "/signed/add-account")
 	public String createAccountPost(Account account,
-	    @RequestParam(value = "username1", required = false) String username1) {
-		System.out.println(account.getAdditionalInfo());
+			@RequestParam(value = "username1", required = false) String username1) {
+		LOGGER.info("Request to  add account.");
 		service.createAccount(account);
-		return "redirect:/admin/list-accounts";
+		return "redirect:/signed/list-accounts";
 	}
 
-	@GetMapping(value = "/delete-account")
+	@GetMapping(value = "signed/delete-account")
 	public String deleteAccount(@RequestParam int id) {
+		LOGGER.info("Request to  delete account.");
 		service.delete(id);
-		return "redirect:/admin/list-accounts";
+		return "redirect:/signed/list-accounts";
 	}
 
-	@GetMapping(value = "/edit-account")
+	@GetMapping(value = "/signed/edit-account")
 	public String getAccountToEditAndPopulateForm(ModelMap model, @RequestParam int id) {
+		LOGGER.debug("Request to Edit account.");
 		Account account = service.retrieveAccount(id);
 		service.updateAccount(account);
 		model.addAttribute("account", account);
 		return "edit-account";
 	}
 
-	@GetMapping(value = "/getImage")
+	@GetMapping(value = "/signed/getImage")
 	@ResponseBody
-	public byte[] showImage(
-	    @RequestParam("accId") int itemId/* , HttpServletResponse response */) throws ServletException, IOException {
+	public byte[] showImage(@RequestParam("accId") int itemId/* , HttpServletResponse response */)
+			throws ServletException, IOException {
 		byte[] buffer = service.getImage(itemId);
 		return buffer;
 	}
 
-	@PostMapping("/uploadImage")
+	@PostMapping("/signed/uploadImage")
 	public String setNewImage(@RequestParam("image") MultipartFile imageFile, @RequestParam("id") Integer accountId,
-	    RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) {
 		if (imageFile.isEmpty()) {
 			redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
 			return "redirect:uploadStatus";
@@ -112,15 +123,16 @@ public class AccountController {
 			InputStream imageConvertedToInputStream = new ByteArrayInputStream(bytes);
 			service.setImage(accountId, imageConvertedToInputStream);
 			redirectAttributes.addFlashAttribute("message",
-			    "You successfully uploaded '" + imageFile.getOriginalFilename() + "'");
+					"You successfully uploaded '" + imageFile.getOriginalFilename() + "'");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "redirect:/uploadStatus";
+		return "redirect:/signed/uploadStatus";
 	}
 
-	@GetMapping(value = "/view-account")
+	@GetMapping(value = "/signed/view-account")
 	public String viewAccount(ModelMap model, @RequestParam int id) {
+		LOGGER.debug("Request to Process View account.");
 		Account account = service.retrieveAccount(id);
 		Object accountWatchList = watchListService.getWatchListForAccount(id);
 		model.addAttribute("watchLists", accountWatchList);
@@ -130,6 +142,6 @@ public class AccountController {
 
 	@GetMapping(value = "/home")
 	public String viewHome() {
-		return "redirect:/admin/list-accounts";
+		return "redirect:/signed/list-accounts";
 	}
 }

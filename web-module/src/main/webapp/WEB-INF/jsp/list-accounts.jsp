@@ -54,7 +54,7 @@
       <th>Action</th>
     </tr>
     <div>
-      <a type="button" class="btn btn-success" href="/add-account">Add New Account</a>
+      <a type="button" class="btn btn-success" href="/signed/add-account">Add New Account</a>
     </div>
 
     <c:forEach var="currAccount" items="${ACCOUNT_LIST}">
@@ -67,16 +67,18 @@
         <td>
 
           <a type="button" class="btn btn-primary"
-             href="<c:url value="/view-account?id=${currAccount.getAccountId()}"/>">View</a>
+             href="<c:url value="/signed/view-account?id=${currAccount.getAccountId()}"/>">View</a>
 
           <a type="button" class="btn btn-primary"
-             href="<c:url value="/edit-account?id=${currAccount.getAccountId()}"/>">Edit</a>
+             href="<c:url value="/signed/edit-account?id=${currAccount.getAccountId()}"/>">Edit</a>
 
           <a type="button" class="btn btn-warning"
-             href="<c:url value="/delete-account?id=${currAccount.getAccountId()}"/>"
+             href="<c:url value="/signed/delete-account?id=${currAccount.getAccountId()}"/>"
              onclick="if (!(confirm('Are you sure you want to delete this account?')))
                  return false">
             Delete</a>
+            
+             
 
         </td>
       </tr>

@@ -21,14 +21,14 @@ public class WatchListService {
 
   @Autowired
   private WatchListTickerRepository tickerRepository;
-  
+
   @Autowired
   private AccountRepository accountRepository;
 
   public List<WatchListDesc> getWatchListForAccount(Integer accountId) {
     return watchListDescDao.findByAccountAccountId(accountId);
   }
-  
+
   public List<WatchListDesc> getWatchListForAccount(Account account) {
     return watchListDescDao.findByAccount(account);
   }

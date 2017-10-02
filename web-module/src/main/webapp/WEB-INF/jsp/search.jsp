@@ -27,7 +27,7 @@
           <input type="text" name="searchParam" class="form control" size="44"
                  placeholder="Type instrument id or first chars of id with '%' symbol"
                  autocomplete="off">
-          <button type="submit" value="Search"
+          <button type="submit" value="signed/Search"
                   class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>
             Search
           </button>

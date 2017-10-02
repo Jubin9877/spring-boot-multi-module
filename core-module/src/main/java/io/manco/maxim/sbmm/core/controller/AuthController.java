@@ -43,10 +43,10 @@ public class AuthController {
 	}
 
 	private String getRememberMeTargetUrlFromSession(HttpServletRequest request) {
-		String targetUrl = "admin";
+		String targetUrl = "signed";
 		HttpSession session = request.getSession(false);
 		if (session != null) {
-			targetUrl = session.getAttribute("targetUrl") == null ? "admin"
+			targetUrl = session.getAttribute("targetUrl") == null ? "signed"
 					: session.getAttribute("targetUrl").toString();
 		}
 		return targetUrl;
@@ -55,28 +55,26 @@ public class AuthController {
 	 @RequestMapping(value = {"/", "/welcome**"}, method = RequestMethod.GET)
 	  public ModelAndView defaultPage() {
 	    ModelAndView model = new ModelAndView();
-	    model.addObject("title", "Spring Security Remember Me");
-	    model.addObject("message", "This is default page!");
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    if (auth.getPrincipal().equals("anonymousUser")) {
 	      model.setViewName("login");
 	    } else {
-	      model.setViewName("redirect:" + "/admin/list-accounts");
+	      model.setViewName("redirect:" + "/signed/list-accounts");
 	    }
 	    return model;
 	  }
 
-	  @RequestMapping(value = {"/admin/search-auth"}, method = RequestMethod.GET)
+	  @RequestMapping(value = {"/signed/search-auth"}, method = RequestMethod.GET)
 	  public String searchPage1() {
 	    return "search-auth";
 	  }
 
-	  @RequestMapping(value = "/admin**", method = RequestMethod.GET)
+	  @RequestMapping(value = "/signed**", method = RequestMethod.GET)
 	  public ModelAndView adminPage() {
 	    ModelAndView model = new ModelAndView();
 	    model.addObject("title", "Spring Security Remember Me");
 	    model.addObject("message", "This page is for ROLE_ADMIN only!");
-	    model.setViewName("admin");
+	    model.setViewName("signed");
 	    return model;
 	  }
 
@@ -90,7 +88,7 @@ public class AuthController {
 	    return "ajax-stock";
 	  }
 
-	  @RequestMapping(value = "/admin/update**", method = RequestMethod.GET)
+	  @RequestMapping(value = "/signed/update**", method = RequestMethod.GET)
 	  public ModelAndView updatePage(HttpServletRequest request) {
 	    ModelAndView model = new ModelAndView();
 	    if (isRememberMeAuthenticated()) {
@@ -113,7 +111,7 @@ public class AuthController {
 	  private void setRememberMeTargetUrlToSession(HttpServletRequest request) {
 	    HttpSession session = request.getSession(false);
 	    if (session != null) {
-	      session.setAttribute("targetUrl", "/admin/update");
+	      session.setAttribute("targetUrl", "/signed/update");
 	    }
 	  }
 

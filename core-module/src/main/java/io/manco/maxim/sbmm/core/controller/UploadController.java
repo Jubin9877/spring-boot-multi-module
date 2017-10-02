@@ -26,7 +26,7 @@ public class UploadController {
     return "upload";
   }
 
-  @PostMapping("/upload")
+  @PostMapping("/signed/upload")
   @ResponseStatus(value = HttpStatus.OK)
   public String singleFileUpload(@RequestBody @RequestParam("file") MultipartFile file,
       RedirectAttributes redirectAttributes) {
@@ -43,7 +43,7 @@ public class UploadController {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return "redirect:/uploadStatus";
+    return "redirect:/signed/uploadStatus";
   }
 
   @PostMapping("/uploadMulti")
@@ -70,10 +70,10 @@ public class UploadController {
       redirectAttributes.addFlashAttribute("message",
           "You successfully uploaded '" + uploadedFileName + "'");
     }
-    return "redirect:/uploadStatus";
+    return "redirect:signed/uploadStatus";
   }
 
-  @GetMapping("/uploadStatus")
+  @GetMapping("/signed/uploadStatus")
   public String uploadStatus() {
     return "uploadStatus";
   }
