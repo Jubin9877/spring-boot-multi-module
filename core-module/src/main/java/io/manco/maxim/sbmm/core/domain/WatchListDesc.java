@@ -36,12 +36,6 @@ public class WatchListDesc {
 
 	private String watchListName;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "watch_stock", 
-		joinColumns = @JoinColumn(name = "watch_id"),
-		inverseJoinColumns = @JoinColumn(name = "stock_id"))
-	private Set<Stock> stock = new HashSet<>();
-
 	@Column(name = "watch_list_description")
 	private String watchListDetails;
 
@@ -141,14 +135,6 @@ public class WatchListDesc {
 
 	public void setAccount(Account account) {
 		this.account = account;
-	}
-
-	public Set<Stock> getStock() {
-		return stock;
-	}
-
-	public void setStock(Set<Stock> stock) {
-		this.stock = stock;
 	}
 
 	@Override
