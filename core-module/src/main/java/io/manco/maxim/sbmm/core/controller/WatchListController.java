@@ -22,14 +22,14 @@ public class WatchListController {
 	@Autowired
 	private WatchListService service;
 
-	@RequestMapping(value = "/view-watchlist", method = RequestMethod.GET)
+	@RequestMapping(value = "/signed/view-watchlist", method = RequestMethod.GET)
 	public String viewAccount(ModelMap model, @RequestParam int id) {
 		model.addAttribute("stockSymbolsList", service.getStockSymbolsList(id));
 		model.addAttribute("watchListId", id);
 		return "view-watchlist";
 	}
 
-	@GetMapping(value = "/add-watchlist")
+	@GetMapping(value = "/signed/add-watchlist")
 	public String addWatchList(ModelMap model, @RequestParam int id) {
 		LOGGER.info("Add Watchlist request for account with id : {} ", id);
 		WatchListDesc watchList = new WatchListDesc();
@@ -38,17 +38,17 @@ public class WatchListController {
 		return "lazyRowLoad";
 	}
 
-	@PostMapping(value = "/lazyRowAdd.web")
+	@PostMapping(value = "/signed/lazyRowAdd.web")
 	public String lazyRowAdd(@ModelAttribute("theWatchListDesc") WatchListDesc watchListDesc,
-	    @ModelAttribute("watchListName") String watchlistName,
-	    @ModelAttribute("watchListDetails") String watchListDetails,
-	    @ModelAttribute("marketDataFrequency") Integer marketDataFrequency, @RequestParam("id") int accId) {
+			@ModelAttribute("watchListName") String watchlistName,
+			@ModelAttribute("watchListDetails") String watchListDetails,
+			@ModelAttribute("marketDataFrequency") Integer marketDataFrequency, @RequestParam("id") int accId) {
 		LOGGER.info("lazy row add for account : {}", accId);
 		watchListDesc.setWatchListName(watchlistName);
 		watchListDesc.setStockSymbolsListFromOperationList(watchListDesc.getOperationParameterses());
 		watchListDesc.setWatchListDetails(watchListDetails);
 		watchListDesc.setMarketDataFrequency(marketDataFrequency);
 		service.create(watchListDesc, accId);
-		return "redirect:/view-account?id=2";
+		return "redirect:/signed/view-account?id="+accId;
 	}
 }

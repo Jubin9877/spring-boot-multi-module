@@ -12,10 +12,10 @@
 	<br> <strong>Additional Info</strong>:
 	<c:out value="${account.getAdditionalInfo()}" />
 	<br> <img
-		src="${pageContext.servletContext.contextPath}/getImage?accId=${account.getAccountId()}"
+		src="${pageContext.servletContext.contextPath}/signed/getImage?accId=${account.getAccountId()}"
 		height="111px" width="111px" />
 
-	<form:form modelAttribute="account" action="uploadImage" method="post"
+	<form:form modelAttribute="account" action="/signed/uploadImage" method="post"
 		enctype="multipart/form-data">
 		<input type="file" name="image" />
 		<br />
@@ -28,10 +28,10 @@
 	<h3>Available DataSets for current account</h3>
 	<div>
 		<a type="button" class="btn btn-success"
-			href="<c:url value="/add-watchlist?id=${account.getAccountId()}"/>">Add
+			href="<c:url value="/signed/add-watchlist?id=${account.getAccountId()}"/>">Add
 			New watchlist</a>
 		<a type="button" class="btn btn-success"
-			href="/search">Search</a>
+			href="/signed/search">Search</a>
 	</div>
 	<hr size="4" color="gray" />
 
@@ -43,7 +43,7 @@
 				<td>dataSet id: ${theWatchList.getWatchListId()}</td>
 
 				<td><a type="button" class="btn btn-primary"
-					href="<c:url value="/view-watchlist?id=${theWatchList.watchListId}"/>">View</a></td>
+					href="<c:url value="/signed/view-watchlist?id=${theWatchList.watchListId}"/>">View</a></td>
 			</tr>
 
 		</c:forEach>
