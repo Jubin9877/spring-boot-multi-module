@@ -6,4 +6,5 @@ import io.manco.maxim.sbmm.core.domain.Account;
 
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 
+  Account findByAccountName(String accountName);
 }
