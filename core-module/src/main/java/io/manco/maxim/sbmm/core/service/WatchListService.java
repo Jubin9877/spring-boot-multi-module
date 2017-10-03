@@ -64,7 +64,15 @@ public class WatchListService {
   	
   	Account account = accountRepository.findOne(accId);
   	watchListDesc.setAccount(account);
-    return watchListDescDao.save(watchListDesc);
+  	List<String> stockSymbols = watchListDesc.getStockSymbolsList();
+    watchListDesc = watchListDescDao.save(watchListDesc);
+    for (String stocks : stockSymbols) {
+      WatchListTicker ticker = new WatchListTicker();
+      ticker.setInstId(stocks);
+      ticker.setWatchList(watchListDesc);
+      tickerRepository.save(ticker);
+    }
+    return watchListDesc;
   }
 
   public WatchListDesc update(WatchListDesc watchListDesc) {

@@ -56,7 +56,7 @@
                 <td>
                   1
                 </td>
-                <td><input name="operationParameterses[0].name" path="name" class="name"/></td>
+                <td><input type="email" name="operationParameterses[0].name" path="name" class="name"/></td>
               </tr>
             </table>
           </div>
