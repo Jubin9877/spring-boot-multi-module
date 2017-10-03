@@ -6,9 +6,9 @@
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 
-  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <script src="//code.highcharts.com/highcharts.js"></script>
 
   <!--Local copy of jQuery js file
     <script src="js/jquery.min.js"></script> -->
