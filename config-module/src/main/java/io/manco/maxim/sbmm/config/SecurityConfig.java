@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -18,6 +21,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	DataSource dataSource;
+	
+	@Autowired
+	private UserDetailsService userAuthenticationService;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -48,6 +54,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.tokenValiditySeconds(1209600);	
 		// @formatter:on
 	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+	    return new BCryptPasswordEncoder();
+	}
 
 	@Bean
 	public PersistentTokenRepository persistentTokenRepository() {
@@ -63,10 +74,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return auth;
 	}
 
-	@Autowired
-	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication().dataSource(dataSource)
-				.usersByUsernameQuery("select account_name ,password, enabled from account where account_name = ?")
-				.authoritiesByUsernameQuery("select account_name, role from user_roles where account_name = ?");
-	}
+//  @Autowired
+//  public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+//    auth.jdbcAuthentication().dataSource(dataSource)
+//        .usersByUsernameQuery("select account_name ,password, enabled from account where account_name = ?")
+//        .authoritiesByUsernameQuery("select account_name, role from user_roles where account_name = ?");
+//  }
+  @Override
+  public void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userAuthenticationService).passwordEncoder(passwordEncoder());
+  }
 }

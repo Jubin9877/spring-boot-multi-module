@@ -58,7 +58,7 @@ public class Account implements Serializable, UserDetails {
 	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
 	private List<WatchListDesc> dataSets;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "account")
 	private Set<UserRoles> roles = new HashSet<UserRoles>(0);
 
 	public Integer getAccountId() {
@@ -157,17 +157,17 @@ public class Account implements Serializable, UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return false;
+		return enabled;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return false;
+		return true;
 	}
 
 }
