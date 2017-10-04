@@ -1,17 +1,21 @@
 package io.manco.maxim.sbmm.core.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.manco.maxim.sbmm.core.domain.Account;
+import io.manco.maxim.sbmm.core.domain.OperationParameters;
+import io.manco.maxim.sbmm.core.domain.Stock;
 import io.manco.maxim.sbmm.core.domain.WatchListDesc;
-import io.manco.maxim.sbmm.core.domain.WatchListTicker;
 import io.manco.maxim.sbmm.core.repository.AccountRepository;
+import io.manco.maxim.sbmm.core.repository.StockRepository;
 import io.manco.maxim.sbmm.core.repository.WatchListRepository;
-import io.manco.maxim.sbmm.core.repository.WatchListTickerRepository;
+
 
 @Service
 public class WatchListService {
@@ -19,11 +23,13 @@ public class WatchListService {
   @Autowired
   private WatchListRepository watchListDescDao;
 
-  @Autowired
-  private WatchListTickerRepository tickerRepository;
+ 
 
   @Autowired
   private AccountRepository accountRepository;
+
+  @Autowired
+  private StockRepository stockRepository;
 
   public List<WatchListDesc> getWatchListForAccount(Integer accountId) {
     return watchListDescDao.findByAccountAccountId(accountId);
@@ -33,18 +39,15 @@ public class WatchListService {
     return watchListDescDao.findByAccount(account);
   }
 
-  public List<String> getAllStockSymbols(Integer watchListDescId) {
-    List<WatchListTicker> tickers = tickerRepository.findByWatchListWatchListId(watchListDescId);
-    List<String> stockSymbols = new ArrayList<>();
-    for (WatchListTicker watchListTicker : tickers) {
-      stockSymbols.add(watchListTicker.getInstId());
-    }
-
-    return stockSymbols;
-  }
-
   public List<String> getStockSymbolsList(Integer id) {
-    return getAllStockSymbols(id);
+    WatchListDesc watchListDesc = watchListDescDao.findOne(id);
+    Set<Stock> setStocks = watchListDesc.getStock();
+    List<String> listStock = new ArrayList<>();
+    for(Stock stock : setStocks)
+    {
+      listStock.add(stock.getName());
+    }
+    return listStock;
   }
 
   public WatchListDesc getWatchListDesc(Integer watchlistId, Integer accountId) {
@@ -61,17 +64,29 @@ public class WatchListService {
   }
 
   public WatchListDesc create(WatchListDesc watchListDesc, Integer accId) {
-  	
-  	Account account = accountRepository.findOne(accId);
-  	watchListDesc.setAccount(account);
-  	List<String> stockSymbols = watchListDesc.getStockSymbolsList();
-    watchListDesc = watchListDescDao.save(watchListDesc);
-    for (String stocks : stockSymbols) {
-      WatchListTicker ticker = new WatchListTicker();
-      ticker.setInstId(stocks);
-      ticker.setWatchList(watchListDesc);
-      tickerRepository.save(ticker);
+
+    Account account = accountRepository.findOne(accId);
+    watchListDesc.setAccount(account);
+    List<String> stockSymbols = watchListDesc.getStockSymbolsList();
+
+    Set<Stock> stockList = new HashSet<>();
+    for (OperationParameters operationParameter : watchListDesc.getOperationParameterses()) {
+      Stock stock1 = stockRepository.findByName(operationParameter.getName());
+      
+      if(stock1 != null)
+       {
+          stockList.add(stock1);
+       }
+      else
+      {
+        Stock stock = new Stock();
+        stock.setName(operationParameter.getName());
+        stockList.add(stock);
+        stockRepository.save(stock);
+      }
     }
+    watchListDesc.setStock(stockList);
+    watchListDesc = watchListDescDao.save(watchListDesc);
     return watchListDesc;
   }
 
