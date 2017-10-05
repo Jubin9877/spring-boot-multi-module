@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.manco.maxim.sbmm.core.domain.Bar;
+import io.manco.maxim.sbmm.core.domain.Stock;
 import io.manco.maxim.sbmm.core.repository.BarRepository;
+import io.manco.maxim.sbmm.core.repository.StockRepository;
 
 @Service
 public class BarService {
@@ -15,12 +17,16 @@ public class BarService {
   @Autowired
   private BarRepository barDao;
 
-  public List<Bar> getBarList(String watchListTickerId) {
-    return barDao.findByWatchListTickerInstId(watchListTickerId);
+  @Autowired
+  private StockRepository stockRepository;
+
+  public List<Bar> getBarListStock(Integer StockId) {
+    return barDao.findByStockId(StockId);
   }
 
   public Bar getSingleBar(Integer barId, String instId) {
-    return barDao.findByMdIdAndWatchListTickerInstId(barId, instId);
+    Stock stock = stockRepository.findByName(instId);
+    return barDao.findByMdIdAndStockId(barId, stock.getId());
   }
 
   public Bar update(Bar bar) {
@@ -36,10 +42,11 @@ public class BarService {
   }
 
   public List<String> searchTickersByChars(String tickerNameId) {
-    List<Bar> barData = barDao.findByWatchListTickerInstIdContaining(tickerNameId);
+
+    List<Stock> stocklist = stockRepository.findByNameContaining(tickerNameId);
     List<String> stockSymbols = new ArrayList<>();
-    for (Bar bar : barData) {
-      stockSymbols.add(bar.getWatchListTicker().getInstId());
+    for (Stock stock : stocklist) {
+      stockSymbols.add(stock.getName());
     }
     return stockSymbols;
   }

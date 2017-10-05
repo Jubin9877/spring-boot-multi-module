@@ -23,9 +23,13 @@ public class Bar implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer mdId;
 
+//	@ManyToOne
+//	@JoinColumn(name="inst_id", nullable=false)
+//	private WatchListTicker watchListTicker;
+	
 	@ManyToOne
-	@JoinColumn(name="inst_id", nullable=false)
-	private WatchListTicker watchListTicker;
+	@JoinColumn(name="stock_id")
+	private Stock stock;
 
 	@Transient
 	private Integer barSize;
@@ -56,13 +60,13 @@ public class Bar implements Serializable {
 		this.mdId = mdId;
 	}
 
-	public WatchListTicker getWatchListTicker() {
-		return watchListTicker;
-	}
-
-	public void setWatchListTicker(WatchListTicker watchListTicker) {
-		this.watchListTicker = watchListTicker;
-	}
+//	public WatchListTicker getWatchListTicker() {
+//		return watchListTicker;
+//	}
+//
+//	public void setWatchListTicker(WatchListTicker watchListTicker) {
+//		this.watchListTicker = watchListTicker;
+//	}
 
 	public Integer getBarSize() {
 		return barSize;
@@ -135,8 +139,18 @@ public class Bar implements Serializable {
 	public void setDate(Timestamp date) {
 		this.date = date;
 	}
+	
+	
 
-	@Override
+	public Stock getStock() {
+    return stock;
+  }
+
+  public void setStock(Stock stock) {
+    this.stock = stock;
+  }
+
+  @Override
 	public String toString() {
 		return "MarketData [id=" + mdId + ", barSize=" + barSize + ", open=" + open + ", high=" + high + ", low=" + low
 		    + ", close=" + close + ", volume=" + volume + ", logInfo=" + logInfo + "]";

@@ -26,122 +26,139 @@ import org.hibernate.annotations.ManyToAny;
 @Entity
 @Table(name = "watch_list")
 public class WatchListDesc {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer watchListId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer watchListId;
 
-	@ManyToOne
-	@JoinColumn(name = "account_id", referencedColumnName = "account_id")
-	private Account account;
+  @ManyToOne
+  @JoinColumn(name = "account_id", referencedColumnName = "account_id")
+  private Account account;
 
-	private String watchListName;
+  private String watchListName;
 
-	@Column(name = "watch_list_description")
-	private String watchListDetails;
+  @Column(name = "watch_list_description")
+  private String watchListDetails;
 
-	private int marketDataFrequency;
-	private String dataProviders;
+  private int marketDataFrequency;
+  private String dataProviders;
 
-	@Transient
-	private List<String> stockSymbolsList;
+  @ManyToMany(cascade = { 
+      CascadeType.PERSIST, 
+      CascadeType.MERGE
+  })
+  @JoinTable(name = "watch_stock",
+      joinColumns = @JoinColumn(name = "watch_id"),
+      inverseJoinColumns = @JoinColumn(name = "stock_id")
+  )
+  private Set<Stock> stock = new HashSet<>();
 
-	@Transient
-	private List operationParameterses = LazyList.lazyList(new ArrayList<>(),
-			FactoryUtils.instantiateFactory(OperationParameters.class));
+  @Transient
+  private List<String> stockSymbolsList;
 
-	public WatchListDesc() {
-	}
+  @Transient
+  private List operationParameterses = LazyList.lazyList(new ArrayList<>(),
+      FactoryUtils.instantiateFactory(OperationParameters.class));
 
-	// public WatchListDesc(int accountId) {
-	// this.accountId = accountId;
-	// }
+  public WatchListDesc() {
+  }
 
-	public WatchListDesc(int watchListId, int accountId, String watchListName, String watchListDetails,
-			int marketDataFrequency, String dataProviders) {
-		this.watchListId = watchListId;
-		// this.accountId = accountId;
-		this.watchListName = watchListName;
-		this.watchListDetails = watchListDetails;
-		this.marketDataFrequency = marketDataFrequency;
-		this.dataProviders = dataProviders;
-	}
+  // public WatchListDesc(int accountId) {
+  // this.accountId = accountId;
+  // }
 
-	public List<String> getStockSymbolsList() {
-		return stockSymbolsList;
-	}
+  public WatchListDesc(int watchListId, int accountId, String watchListName, String watchListDetails,
+      int marketDataFrequency, String dataProviders) {
+    this.watchListId = watchListId;
+    // this.accountId = accountId;
+    this.watchListName = watchListName;
+    this.watchListDetails = watchListDetails;
+    this.marketDataFrequency = marketDataFrequency;
+    this.dataProviders = dataProviders;
+  }
 
-	public void setStockSymbolsList(List<String> stockSymbolsList) {
-		this.stockSymbolsList = stockSymbolsList;
-	}
+  public List<String> getStockSymbolsList() {
+    return stockSymbolsList;
+  }
 
-	public void setStockSymbolsListFromOperationList(List<OperationParameters> stockSymbolsList) {
-		List<String> stringList = stockSymbolsList.stream().map(OperationParameters::getName)
-				.collect(Collectors.toList());
-		this.stockSymbolsList = stringList;
-	}
+  public void setStockSymbolsList(List<String> stockSymbolsList) {
+    this.stockSymbolsList = stockSymbolsList;
+  }
 
-	public List<OperationParameters> getOperationParameterses() {
-		return operationParameterses;
-	}
+  public void setStockSymbolsListFromOperationList(List<OperationParameters> stockSymbolsList) {
+    List<String> stringList = stockSymbolsList.stream().map(OperationParameters::getName).collect(Collectors.toList());
+    this.stockSymbolsList = stringList;
+  }
 
-	public void setOperationParameterses(List<OperationParameters> operationParameterses) {
-		this.operationParameterses = operationParameterses;
-	}
+  public List<OperationParameters> getOperationParameterses() {
+    return operationParameterses;
+  }
 
-	public Integer getWatchListId() {
-		return watchListId;
-	}
+  public void setOperationParameterses(List<OperationParameters> operationParameterses) {
+    this.operationParameterses = operationParameterses;
+  }
 
-	public void setWatchListId(Integer watchListId) {
-		this.watchListId = watchListId;
-	}
+  public Integer getWatchListId() {
+    return watchListId;
+  }
 
-	public String getWatchListName() {
-		return watchListName;
-	}
+  public void setWatchListId(Integer watchListId) {
+    this.watchListId = watchListId;
+  }
 
-	public void setWatchListName(String watchListName) {
-		this.watchListName = watchListName;
-	}
+  public String getWatchListName() {
+    return watchListName;
+  }
 
-	public String getWatchListDetails() {
-		return watchListDetails;
-	}
+  public void setWatchListName(String watchListName) {
+    this.watchListName = watchListName;
+  }
 
-	public void setWatchListDetails(String watchListDetails) {
-		this.watchListDetails = watchListDetails;
-	}
+  public String getWatchListDetails() {
+    return watchListDetails;
+  }
 
-	public int getMarketDataFrequency() {
-		return marketDataFrequency;
-	}
+  public void setWatchListDetails(String watchListDetails) {
+    this.watchListDetails = watchListDetails;
+  }
 
-	public void setMarketDataFrequency(int marketDataFrequency) {
-		this.marketDataFrequency = marketDataFrequency;
-	}
+  public int getMarketDataFrequency() {
+    return marketDataFrequency;
+  }
 
-	public String getDataProviders() {
-		// TODO m it should be List<providerID> like phone in social network
-		return dataProviders;
-	}
+  public void setMarketDataFrequency(int marketDataFrequency) {
+    this.marketDataFrequency = marketDataFrequency;
+  }
 
-	public void setDataProviders(String dataProviders) {
-		this.dataProviders = dataProviders;
-	}
+  public String getDataProviders() {
+    // TODO m it should be List<providerID> like phone in social network
+    return dataProviders;
+  }
 
-	public Account getAccount() {
-		return account;
-	}
+  public void setDataProviders(String dataProviders) {
+    this.dataProviders = dataProviders;
+  }
 
-	public void setAccount(Account account) {
-		this.account = account;
-	}
+  public Account getAccount() {
+    return account;
+  }
 
-	@Override
-	public String toString() {
-		return String.valueOf(" account id =  " + this.getAccount().getAccountId() + "\n " + "data set id = "
-				+ this.getWatchListId() + "\n " + "market data freq = " + this.getMarketDataFrequency() + "\n "
-				+ "data set name = " + this.getWatchListName() + "\n " + "data set description = "
-				+ this.getWatchListDetails() + "\n ");
-	}
+  public void setAccount(Account account) {
+    this.account = account;
+  }
+
+  public Set<Stock> getStock() {
+    return stock;
+  }
+
+  public void setStock(Set<Stock> stock) {
+    this.stock = stock;
+  }
+
+  @Override
+  public String toString() {
+    return String
+        .valueOf(" account id =  " + this.getAccount().getAccountId() + "\n " + "data set id = " + this.getWatchListId()
+            + "\n " + "market data freq = " + this.getMarketDataFrequency() + "\n " + "data set name = "
+            + this.getWatchListName() + "\n " + "data set description = " + this.getWatchListDetails() + "\n ");
+  }
 }

@@ -47,7 +47,9 @@
     <div class="error">${error}</div>
   </c:if>
   <c:if test="${not empty msg}">
-    <div class="msg">${msg}</div>
+    <div class="msg">${msg}
+   
+    </div>
   </c:if>
 
   <form name='loginForm'
@@ -63,13 +65,10 @@
         <td><input type='password' name='password'/></td>
       </tr>
 
-      <!-- if this is login for update, ignore remember me check -->
-      <c:if test="${empty loginUpdate}">
         <tr>
-          <td></td>
-          <td>Remember Me: <input type="checkbox" name="remember-me"/></td>
+          <td>Remember Me:</td>
+          <td> <input type="checkbox" name="remember-me"/></td>
         </tr>
-      </c:if>
 
       <tr>
         <td colspan='2'><input name="submit" type="submit"

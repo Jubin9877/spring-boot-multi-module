@@ -7,11 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import io.manco.maxim.sbmm.core.domain.Bar;
 
 public interface BarRepository extends JpaRepository<Bar, Integer> {
+  
+  List<Bar> findByStockId(Integer stockId);
 
-  List<Bar> findByWatchListTickerInstId(String watchListTickerId);
-
-  List<Bar> findByWatchListTickerInstIdContaining(String tickerNameId);
-
-  Bar findByMdIdAndWatchListTickerInstId(Integer barId, String instId);
+  Bar findByMdIdAndStockId(Integer barId, Integer stockId);
 
 }

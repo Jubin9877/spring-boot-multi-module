@@ -22,14 +22,13 @@ public class AuthController {
 	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(@RequestParam(value = "error", required = false) String error,
+	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView();
 		logger.info("Authentication request came.");
 		if (error != null) {
 			model.addObject("error", "Invalid username and password!");
 			String targetUrl = getRememberMeTargetUrlFromSession(request);
-			// System.out.println(targetUrl);
 			if (StringUtils.hasText(targetUrl)) {
 				model.addObject("targetUrl", targetUrl);
 				model.addObject("loginUpdate", true);
@@ -39,14 +38,14 @@ public class AuthController {
 			model.addObject("msg", "You've been logged out successfully.");
 		}
 		model.setViewName("login");
-		return "login";
+		return model;
 	}
 
 	private String getRememberMeTargetUrlFromSession(HttpServletRequest request) {
-		String targetUrl = "signed";
+		String targetUrl = "/";
 		HttpSession session = request.getSession(false);
 		if (session != null) {
-			targetUrl = session.getAttribute("targetUrl") == null ? "signed"
+			targetUrl = session.getAttribute("targetUrl") == null ? targetUrl
 					: session.getAttribute("targetUrl").toString();
 		}
 		return targetUrl;
@@ -59,24 +58,24 @@ public class AuthController {
 	    if (auth.getPrincipal().equals("anonymousUser")) {
 	      model.setViewName("login");
 	    } else {
-	      model.setViewName("redirect:" + "/signed/list-accounts");
+	      model.setViewName("redirect:/signed/list-accounts");
 	    }
 	    return model;
 	  }
 
-	  @RequestMapping(value = {"/signed/search-auth"}, method = RequestMethod.GET)
-	  public String searchPage1() {
-	    return "search-auth";
-	  }
+//	  @RequestMapping(value = {"/signed/search-auth"}, method = RequestMethod.GET)
+//	  public String searchPage1() {
+//	    return "search-auth";
+//	  }
 
-	  @RequestMapping(value = "/signed**", method = RequestMethod.GET)
-	  public ModelAndView adminPage() {
-	    ModelAndView model = new ModelAndView();
-	    model.addObject("title", "Spring Security Remember Me");
-	    model.addObject("message", "This page is for ROLE_ADMIN only!");
-	    model.setViewName("signed");
-	    return model;
-	  }
+//	  @RequestMapping(value = "/signed**", method = RequestMethod.GET)
+//	  public ModelAndView adminPage() {
+//	    ModelAndView model = new ModelAndView();
+//	    model.addObject("title", "Spring Security Remember Me");
+//	    model.addObject("message", "This page is for ROLE_ADMIN only!");
+//	    model.setViewName("signed");
+//	    return model;
+//	  }
 
 	  @RequestMapping(value = "/logout**", method = RequestMethod.GET)
 	  public String logOut() {
