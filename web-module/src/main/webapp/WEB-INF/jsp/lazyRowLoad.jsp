@@ -7,6 +7,12 @@
           src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
   <script type="text/javascript"
           src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
+          
+          <style type="text/css">
+            .error {
+               color: red;
+            }
+        </style>
 
 </head>
 
@@ -56,7 +62,7 @@
                 <td>
                   1
                 </td>
-                <td><input type="email" name="operationParameterses[0].name" path="name" class="name"/></td>
+                <td><input type="email" name="operationParameterses[0].name" path="name" class="name" / ></td>
               </tr>
             </table>
           </div>
