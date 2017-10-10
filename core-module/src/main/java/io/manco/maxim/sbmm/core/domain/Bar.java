@@ -36,13 +36,13 @@ public class Bar implements Serializable {
 
 	private String ticker;
 
-	private Float open;
+	private Long open;
 
-	private Float high;
+	private Long high;
 
-	private Float low;
+	private Long low;
 
-	private Float close;
+	private Long close;
 
 	@Column(name = "vol")
 	private Integer volume;
@@ -80,7 +80,7 @@ public class Bar implements Serializable {
 		return open;
 	}
 
-	public void setOpen(Float open) {
+	public void setOpen(Long open) {
 		this.open = open;
 	}
 
@@ -88,7 +88,7 @@ public class Bar implements Serializable {
 		return high;
 	}
 
-	public void setHigh(Float high) {
+	public void setHigh(Long high) {
 		this.high = high;
 	}
 
@@ -96,7 +96,7 @@ public class Bar implements Serializable {
 		return low;
 	}
 
-	public void setLow(Float low) {
+	public void setLow(Long low) {
 		this.low = low;
 	}
 
@@ -104,7 +104,7 @@ public class Bar implements Serializable {
 		return close;
 	}
 
-	public void setClose(Float close) {
+	public void setClose(Long close) {
 		this.close = close;
 	}
 
