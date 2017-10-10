@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.catalina.User;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,28 +16,34 @@ import io.manco.maxim.sbmm.core.domain.Account;
 import io.manco.maxim.sbmm.core.domain.UserRoles;
 import io.manco.maxim.sbmm.core.domain.WatchListDesc;
 import io.manco.maxim.sbmm.core.repository.AccountRepository;
+import io.manco.maxim.sbmm.core.repository.UserRoleRepository;
 
 @Service
 public class AccountService {
 
-	@Autowired
-	private AccountRepository accountDao;
+  @Autowired
+  private AccountRepository accountDao;
 
-	@Autowired
-	private WatchListService watchListDescDao;
+  @Autowired
+  private WatchListService watchListDescDao;
+
+  @Autowired
+  private UserRoleRepository userRoleRepository;
 
   public List<Account> getAccountList() {
     return accountDao.findAll();
   }
 
+  private static final String ROLE = "ROLE_ADMIN";
+
   public Account createAccount(Account account) {
     account.setCreationDate(LocalDate.now().toString());
+
+    UserRoles userroles = userRoleRepository.findByrole(ROLE);
+
     Set<UserRoles> roles = new HashSet<>();
-    UserRoles role = new UserRoles();
-    role.setRole("ROLE_ADMIN");
-    role.setAccount(account);
-    role.setAccount_name(account.getAccountName());
-    roles.add(role);
+    roles.add(userroles);
+
     account.setRoles(roles);
     return accountDao.save(account);
   }
