@@ -19,7 +19,7 @@
 		</dependency>
 		<dependency>
 			<groupId>io.manco.maxim</groupId>
-			<artifactId>core-module</artifactId>
+			<artifactId>controller-module</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
