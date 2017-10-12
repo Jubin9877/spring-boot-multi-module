@@ -4,20 +4,17 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Import;
 
-import io.manco.maxim.sbmm.config.ConfigApplication;
 import io.manco.maxim.sbmm.controller.ControllerApplication;
-import io.manco.maxim.sbmm.domain.DomainApplication;
-import io.manco.maxim.sbmm.repository.RepositoryApplication;
-import io.manco.maxim.sbmm.service.ServiceApplication;
 
 @SpringBootApplication
+@Import({ ControllerApplication.class})
 public class WebApplication extends SpringBootServletInitializer {
 
   public static void main(String[] args) {
     new SpringApplicationBuilder()
-        .bannerMode(Banner.Mode.CONSOLE).sources(DomainApplication.class, ControllerApplication.class,
-            ServiceApplication.class, RepositoryApplication.class, WebApplication.class, ConfigApplication.class)
+        .bannerMode(Banner.Mode.CONSOLE).sources(WebApplication.class)
         .run(args);
   }
 

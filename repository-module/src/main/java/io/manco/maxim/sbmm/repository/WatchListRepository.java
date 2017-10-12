@@ -12,9 +12,7 @@ public interface WatchListRepository extends JpaRepository<WatchListDesc, Intege
   List<WatchListDesc> findByAccount(Account account);
 
   List<WatchListDesc> findByAccountAccountId(Integer accountId);
-  
 
   WatchListDesc findByAccountAccountIdAndWatchListId(Integer accountId, Integer watchListId);
-
 
 }

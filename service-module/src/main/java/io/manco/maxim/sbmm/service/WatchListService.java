@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.manco.maxim.sbmm.domain.Account;
-import io.manco.maxim.sbmm.domain.OperationParameters;
 import io.manco.maxim.sbmm.domain.Stock;
 import io.manco.maxim.sbmm.domain.WatchListDesc;
+import io.manco.maxim.sbmm.domain.WatchListDesc.OperationParameters;
 import io.manco.maxim.sbmm.repository.AccountRepository;
 import io.manco.maxim.sbmm.repository.StockRepository;
 import io.manco.maxim.sbmm.repository.WatchListRepository;

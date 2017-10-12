@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import io.manco.maxim.sbmm.domain.Bar;
-import io.manco.maxim.sbmm.domain.Stock;
 import io.manco.maxim.sbmm.repository.StockRepository;
 import io.manco.maxim.sbmm.service.BarService;
 
@@ -22,20 +21,12 @@ public class BarDataController {
   @Autowired
   private BarService service;
 
-  @Override
-  public String toString() {
-    // TODO Auto-generated method stub
-    return super.toString();
-  }
-
   @Autowired
   public StockRepository stockRepository;
 
   @RequestMapping(value = "/signed/view-data", method = RequestMethod.GET)
   public String viewAccount(ModelMap model, @RequestParam String stockSymbol) {
-    Stock stock = stockRepository.findByName(stockSymbol);
-    LOGGER.info("Request to View Data for Bar chart.");
-    List<Bar> barList = service.getBarListStock(stock.getId());
+    List<Bar> barList = service.getBarListStock(stockSymbol);
     model.addAttribute("barData", barList);
     return "view-data";
   }

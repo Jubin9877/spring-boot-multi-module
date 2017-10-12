@@ -3,6 +3,8 @@ package io.manco.maxim.sbmm.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import io.manco.maxim.sbmm.domain.Stock;
 
 @Service
 public class BarService {
+  
+  private static final Logger LOGGER = LoggerFactory.getLogger(BarService.class);
 
   @Autowired
   private BarRepository barDao;
@@ -20,8 +24,10 @@ public class BarService {
   @Autowired
   private StockRepository stockRepository;
 
-  public List<Bar> getBarListStock(Integer StockId) {
-    return barDao.findByStockId(StockId);
+  public List<Bar> getBarListStock(String stockSymbol) {
+    Stock stock = stockRepository.findByName(stockSymbol);
+    LOGGER.info("Request to View Data for Bar chart for symbol : {} .", stockSymbol);
+    return barDao.findByStockId(stock.getId());
   }
 
   public Bar getSingleBar(Integer barId, String instId) {

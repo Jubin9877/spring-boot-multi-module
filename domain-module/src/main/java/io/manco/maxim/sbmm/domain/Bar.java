@@ -17,132 +17,151 @@ import javax.persistence.Transient;
 @Table(name = "market_data")
 public class Bar implements Serializable {
 
-	private static final long serialVersionUID = 8603664627443524436L;
+  private static final long serialVersionUID = 8603664627443524436L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer mdId;
+  public Bar() {
 
-//	@ManyToOne
-//	@JoinColumn(name="inst_id", nullable=false)
-//	private WatchListTicker watchListTicker;
-	
-	@ManyToOne
-	@JoinColumn(name="stock_id")
-	private Stock stock;
+  }
 
-	@Transient
-	private Integer barSize;
+  public Bar(Bar bar) {
+    if (bar == null) {
+      return;
+    }
+    this.close =bar.getClose();
+    this.barSize=bar.getBarSize();
+    this.date =bar.getDate();
+    this.high = bar.getHigh();
+    this.logInfo = bar.getLogInfo();
+    this.low = bar.getLow();
+    this.mdId = bar.getMdId();
+    this.open = bar.getOpen();
+    this.stock = bar.getStock();
+    this.ticker = bar.getTicker();
+    this.volume = bar.getVolume();
+  }
 
-	private String ticker;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long mdId;
 
-	private Long open;
+  // @ManyToOne
+  // @JoinColumn(name="inst_id", nullable=false)
+  // private WatchListTicker watchListTicker;
 
-	private Long high;
+  @ManyToOne
+  @JoinColumn(name = "stock_id")
+  private Stock stock;
 
-	private Long low;
+  @Transient
+  private Integer barSize;
 
-	private Long close;
+  private String ticker;
 
-	@Column(name = "vol")
-	private Integer volume;
+  private Long open;
 
-	@Column(name = "additional_info")
-	private String logInfo;
+  private Long high;
 
-	private Timestamp date;
+  private Long low;
 
-	public Integer getMdId() {
-		return mdId;
-	}
+  private Long close;
 
-	public void setMdId(Integer mdId) {
-		this.mdId = mdId;
-	}
+  @Column(name = "vol")
+  private Integer volume;
 
-//	public WatchListTicker getWatchListTicker() {
-//		return watchListTicker;
-//	}
-//
-//	public void setWatchListTicker(WatchListTicker watchListTicker) {
-//		this.watchListTicker = watchListTicker;
-//	}
+  @Column(name = "additional_info")
+  private String logInfo;
 
-	public Integer getBarSize() {
-		return barSize;
-	}
+  private Timestamp date;
 
-	public void setBarSize(Integer barSize) {
-		this.barSize = barSize;
-	}
+  public Long getMdId() {
+    return mdId;
+  }
 
-	public float getOpen() {
-		return open;
-	}
+  public void setMdId(Long mdId) {
+    this.mdId = mdId;
+  }
 
-	public void setOpen(Long open) {
-		this.open = open;
-	}
+  // public WatchListTicker getWatchListTicker() {
+  // return watchListTicker;
+  // }
+  //
+  // public void setWatchListTicker(WatchListTicker watchListTicker) {
+  // this.watchListTicker = watchListTicker;
+  // }
 
-	public float getHigh() {
-		return high;
-	}
+  public Integer getBarSize() {
+    return barSize;
+  }
 
-	public void setHigh(Long high) {
-		this.high = high;
-	}
+  public void setBarSize(Integer barSize) {
+    this.barSize = barSize;
+  }
 
-	public float getLow() {
-		return low;
-	}
+  public Long getOpen() {
+    return open;
+  }
 
-	public void setLow(Long low) {
-		this.low = low;
-	}
+  public void setOpen(Long open) {
+    this.open = open;
+  }
 
-	public float getClose() {
-		return close;
-	}
+  public Long getHigh() {
+    return high;
+  }
 
-	public void setClose(Long close) {
-		this.close = close;
-	}
+  public void setHigh(Long high) {
+    this.high = high;
+  }
 
-	public long getVolume() {
-		return volume;
-	}
+  public Long getLow() {
+    return low;
+  }
 
-	public void setVolume(Integer volume) {
-		this.volume = volume;
-	}
+  public void setLow(Long low) {
+    this.low = low;
+  }
 
-	public String getLogInfo() {
-		return logInfo;
-	}
+  public Long getClose() {
+    return close;
+  }
 
-	public void setLogInfo(String logInfo) {
-		this.logInfo = logInfo;
-	}
+  public void setClose(Long close) {
+    this.close = close;
+  }
 
-	public String getTicker() {
-		return ticker;
-	}
+  public Integer getVolume() {
+    return volume;
+  }
 
-	public void setTicker(String ticker) {
-		this.ticker = ticker;
-	}
+  public void setVolume(Integer volume) {
+    this.volume = volume;
+  }
 
-	public Timestamp getDate() {
-		return date;
-	}
+  public String getLogInfo() {
+    return logInfo;
+  }
 
-	public void setDate(Timestamp date) {
-		this.date = date;
-	}
-	
-	
+  public void setLogInfo(String logInfo) {
+    this.logInfo = logInfo;
+  }
 
-	public Stock getStock() {
+  public String getTicker() {
+    return ticker;
+  }
+
+  public void setTicker(String ticker) {
+    this.ticker = ticker;
+  }
+
+  public Timestamp getDate() {
+    return date;
+  }
+
+  public void setDate(Timestamp date) {
+    this.date = date;
+  }
+
+  public Stock getStock() {
     return stock;
   }
 
@@ -151,9 +170,9 @@ public class Bar implements Serializable {
   }
 
   @Override
-	public String toString() {
-		return "MarketData [id=" + mdId + ", barSize=" + barSize + ", open=" + open + ", high=" + high + ", low=" + low
-		    + ", close=" + close + ", volume=" + volume + ", logInfo=" + logInfo + "]";
-	}
+  public String toString() {
+    return "MarketData [id=" + mdId + ", barSize=" + barSize + ", open=" + open + ", high=" + high + ", low=" + low
+        + ", close=" + close + ", volume=" + volume + ", logInfo=" + logInfo + "]";
+  }
 
 }
