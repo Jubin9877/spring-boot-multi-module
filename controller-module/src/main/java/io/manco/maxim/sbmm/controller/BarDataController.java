@@ -18,15 +18,11 @@ import io.manco.maxim.sbmm.service.BarService;
 
 @Controller
 public class BarDataController {
+
   private static final Logger LOGGER = LoggerFactory.getLogger(BarDataController.class);
+
   @Autowired
   private BarService service;
-
-  @Override
-  public String toString() {
-    // TODO Auto-generated method stub
-    return super.toString();
-  }
 
   @Autowired
   public StockRepository stockRepository;
@@ -42,14 +38,6 @@ public class BarDataController {
 
   @RequestMapping(value = "/signed/search", method = RequestMethod.GET)
   public String searchGet1() {
-    return "search";
-  }
-
-  @RequestMapping(value = "/signed/DataController", method = RequestMethod.GET)
-  public String searchGet2(ModelMap model, @RequestParam String searchParam) {
-    LOGGER.info("Request to Datacontroller for Bar Chart.");
-    List<String> tickets = service.searchTickersByChars(searchParam);
-    model.addAttribute("THE_SEARCH_RESULT_LIST", tickets);
     return "search";
   }
 

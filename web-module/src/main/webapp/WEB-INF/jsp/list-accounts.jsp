@@ -10,31 +10,13 @@
 <title>Fintech Application</title>
 <link href="/webjars/bootstrap/3.3.6/css/bootstrap.min.css"
 	rel="stylesheet">
-<%-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>--%>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<%-- <link rel="stylesheet"
-         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>--%>
-<script type="text/javascript"
-	src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js">
-	
-</script>
-
-
-<%-- <script
-      src="webjars/bootstrap-datepicker/1.0.1/js/bootstrap-datepicker.js"></script>
-      this is for calendar
-      --%>
-
+<script src="/webjars/jquery/1.9.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 
 <body>
 	<%@ include file="common/header.jspf"%>
 	<%@ include file="common/navigation.jspf"%>
-
-
-
 
 	<div class="container">
 
@@ -75,22 +57,10 @@
                  return false">
 							Delete</a></td>
 				</tr>
-
 			</c:forEach>
-
 		</table>
-
-
 	</div>
 
-
-
-
-
-	<script src="/webjars/jquery/1.9.1/jquery.min.js"></script>
-	<script src="/webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<script
-		src="/webjars/bootstrap-datepicker/1.0.1/js/bootstrap-datepicker.js"></script>
 
 </body>
 </html>
