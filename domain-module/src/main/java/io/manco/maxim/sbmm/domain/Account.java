@@ -29,151 +29,172 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "account")
 public class Account implements Serializable, UserDetails {
 
-  private static final long serialVersionUID = 6733182399245205238L;
+	public Account(String accountName, String eMail, String additionalInfo, String password,
+	    List<WatchListDesc> dataSets, String creationDate) {
+		this.accountName = accountName;
+		this.email = eMail;
+		this.additionalInfo = additionalInfo;
+		this.password = password;
+		this.dataSets = dataSets;
+		this.creationDate = creationDate;
+	}
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "account_id")
-  private Integer accountId;
+	public Account(int id, String accountName, String eMail, String additionalInfo, String password,
+	    List<WatchListDesc> dataSets, String creationDate) {
+		this.accountId = id;
+		this.accountName = accountName;
+		this.email = eMail;
+		this.additionalInfo = additionalInfo;
+		this.password = password;
+		this.dataSets = dataSets;
+		this.creationDate = creationDate;
+	}
 
-  @Column(name = "account_name")
-  private String accountName;
+	private static final long serialVersionUID = 6733182399245205238L;
 
-  @Column(name = "email")
-  private String email;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "account_id")
+	private Integer accountId;
 
-  @Column(name = "additional_info")
-  private String additionalInfo;
+	@Column(name = "account_name")
+	private String accountName;
 
-  @Column(name = "password")
-  private String password;
+	@Column(name = "email")
+	private String email;
 
-  @Column(name = "image")
-  @Lob
-  private byte[] image;
+	@Column(name = "additional_info")
+	private String additionalInfo;
 
-  @Column(name = "enabled")
-  private boolean enabled;
+	@Column(name = "password")
+	private String password;
 
-  @Column(name = "creation_date")
-  private String creationDate;
+	@Column(name = "image")
+	@Lob
+	private byte[] image;
 
-  @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-  private List<WatchListDesc> dataSets;
+	@Column(name = "enabled")
+	private boolean enabled;
 
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "account_role", joinColumns = {
-      @JoinColumn(name = "user_id", referencedColumnName = "account_id") }, inverseJoinColumns = {
-          @JoinColumn(name = "role_id", referencedColumnName = "user_role_id") })
-  private Set<UserRoles> roles = new HashSet<UserRoles>(0);
+	@Column(name = "creation_date")
+	private String creationDate;
 
-  public Integer getAccountId() {
-    return accountId;
-  }
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+	private List<WatchListDesc> dataSets;
 
-  public void setAccountId(Integer accountId) {
-    this.accountId = accountId;
-  }
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "account_role", joinColumns = {
+	    @JoinColumn(name = "user_id", referencedColumnName = "account_id") }, inverseJoinColumns = {
+	        @JoinColumn(name = "role_id", referencedColumnName = "user_role_id") })
+	private Set<UserRoles> roles = new HashSet<UserRoles>(0);
 
-  public String getAccountName() {
-    return accountName;
-  }
+	public Integer getAccountId() {
+		return accountId;
+	}
 
-  public void setAccountName(String accountName) {
-    this.accountName = accountName;
-  }
+	public void setAccountId(Integer accountId) {
+		this.accountId = accountId;
+	}
 
-  public String getEmail() {
-    return email;
-  }
+	public String getAccountName() {
+		return accountName;
+	}
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
 
-  public String getAdditionalInfo() {
-    return additionalInfo;
-  }
+	public String getEmail() {
+		return email;
+	}
 
-  public void setAdditionalInfo(String additionalInfo) {
-    this.additionalInfo = additionalInfo;
-  }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-  public String getPassword() {
-    return password;
-  }
+	public String getAdditionalInfo() {
+		return additionalInfo;
+	}
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+	public void setAdditionalInfo(String additionalInfo) {
+		this.additionalInfo = additionalInfo;
+	}
 
-  public byte[] getImage() {
-    return image;
-  }
+	public String getPassword() {
+		return password;
+	}
 
-  public void setImage(byte[] image) {
-    this.image = image;
-  }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-  public List<WatchListDesc> getDataSets() {
-    return dataSets;
-  }
+	public byte[] getImage() {
+		return image;
+	}
 
-  public void setDataSets(List<WatchListDesc> watchLists) {
-    this.dataSets = watchLists;
-  }
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
 
-  public boolean isEnabled() {
-    return enabled;
-  }
+	public List<WatchListDesc> getDataSets() {
+		return dataSets;
+	}
 
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
-  }
+	public void setDataSets(List<WatchListDesc> watchLists) {
+		this.dataSets = watchLists;
+	}
 
-  public Set<UserRoles> getRoles() {
-    return roles;
-  }
+	public boolean isEnabled() {
+		return enabled;
+	}
 
-  public void setRoles(Set<UserRoles> roles) {
-    this.roles = roles;
-  }
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
-  public String getCreationDate() {
-    return creationDate;
-  }
+	public Set<UserRoles> getRoles() {
+		return roles;
+	}
 
-  public void setCreationDate(String creationDate) {
-    this.creationDate = creationDate;
-  }
+	public void setRoles(Set<UserRoles> roles) {
+		this.roles = roles;
+	}
 
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
-    for (UserRoles role : roles) {
-      grantedAuths.add(new SimpleGrantedAuthority(role.getRole()));
-    }
-    return grantedAuths;
-  }
+	public String getCreationDate() {
+		return creationDate;
+	}
 
-  @Override
-  public String getUsername() {
-    return accountName;
-  }
+	public void setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
+	}
 
-  @Override
-  public boolean isAccountNonExpired() {
-    return true;
-  }
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
+		for (UserRoles role : roles) {
+			grantedAuths.add(new SimpleGrantedAuthority(role.getRole()));
+		}
+		return grantedAuths;
+	}
 
-  @Override
-  public boolean isAccountNonLocked() {
-    return enabled;
-  }
+	@Override
+	public String getUsername() {
+		return accountName;
+	}
 
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return true;
-  }
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return enabled;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
 
 }

@@ -24,9 +24,6 @@ public class AccountService {
   private AccountRepository accountDao;
 
   @Autowired
-  private WatchListService watchListDescDao;
-
-  @Autowired
   private UserRoleRepository userRoleRepository;
 
   public List<Account> getAccountList() {
@@ -57,7 +54,7 @@ public class AccountService {
 
   public Account retrieveAccount(int accId) {
     Account user = accountDao.findOne(accId);
-    List<WatchListDesc> dataSetList = watchListDescDao.getWatchListForAccount(accId);
+    List<WatchListDesc> dataSetList = user.getDataSets();
     user.setDataSets(dataSetList);
     return user;
   }
