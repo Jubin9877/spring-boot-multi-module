@@ -16,8 +16,16 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "stock")
 public class Stock implements Serializable {
+	
+  public Stock(String name) {
+		super();
+		this.name = name;
+	}
 
-  @Id
+	public Stock() {
+	}
+
+	@Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 

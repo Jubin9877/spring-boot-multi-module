@@ -40,7 +40,12 @@ public class Bar implements Serializable {
     this.volume = bar.getVolume();
   }
 
-  @Id
+  public Bar(long marketDataId, String stockName) {
+     this.mdId = marketDataId;
+     this.stock = new Stock(stockName);
+	}
+
+	@Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long mdId;
 

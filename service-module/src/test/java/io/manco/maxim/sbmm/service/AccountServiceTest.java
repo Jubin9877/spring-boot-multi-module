@@ -1,96 +1,41 @@
 package io.manco.maxim.sbmm.service;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-//import com.gjj.igden.model.Account;
-//import com.gjj.igden.model.WatchListDesc;
-//import com.gjj.igden.service.accountService.AccountService;
-//import com.gjj.igden.service.test.daostub.AccountDaoStub;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import io.manco.maxim.sbmm.domain.Account;
-import io.manco.maxim.sbmm.domain.UserRoles;
 import io.manco.maxim.sbmm.domain.WatchListDesc;
-import io.manco.maxim.sbmm.repository.AccountRepository;
-import io.manco.maxim.sbmm.repository.UserRoleRepository;
+import io.manco.maxim.sbmm.service.stub.AccountRepositoryStub;
 
-@RunWith(MockitoJUnitRunner.class)
-@ContextConfiguration(classes = ServiceTestApplication.class)
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = ServiceTestConfiguration.class)
 public class AccountServiceTest {
 
-	private static Map<Integer, Account> accountDbSimulator;
-
-	@InjectMocks
+	@Autowired
 	private AccountService accountService;
-
-	@Mock
-	private AccountRepository accountRepository;
-
-	@Mock
-	private UserRoleRepository userRoleRepository;
 
 	@Before
 	public void accountSetup() {
-		accountDbSimulator = Maps.newHashMap(ImmutableMap.of(1,
+		AccountRepositoryStub.accountDbSimulator = Maps.newHashMap(ImmutableMap.of(1,
 		    new Account(1, "accountName_test1", "eMail_test1", "additionalInfo_test1", "password_test1",
 		        Stream.of(new WatchListDesc(), new WatchListDesc(), new WatchListDesc(), new WatchListDesc())
 		            .collect(Collectors.toList()),
 		        "creationDate_test1"),
 		    2, new Account(2, "accountName_test2", "eMail_test2", "additionalInfo_test2", "password_test2",
 		        Stream.of(new WatchListDesc()).collect(Collectors.toList()), "creationDate_test2")));
-		when(accountRepository.findAll())
-		    .thenReturn(accountDbSimulator.values().stream().filter(Objects::nonNull).collect(Collectors.toList()));
-
-		when(accountRepository.findOne(anyInt())).thenAnswer(new Answer<Account>() {
-			@Override
-			public Account answer(InvocationOnMock invocation) throws Throwable {
-				Integer id = invocation.getArgumentAt(0, Integer.class);
-				return accountDbSimulator.get(id);
-			}
-		});
-
-		when(userRoleRepository.findByrole(anyString())).thenReturn(new UserRoles());
-
-		when(accountRepository.save(any(Account.class))).thenAnswer(new Answer<Account>() {
-			@Override
-			public Account answer(InvocationOnMock invocation) throws Throwable {
-				Account acc = invocation.getArgumentAt(0, Account.class);
-				accountDbSimulator.put(acc.getAccountId(), acc);
-				return acc;
-			}
-		});
-
-		doAnswer(new Answer<Void>() {
-			@Override
-			public Void answer(InvocationOnMock invocation) throws Throwable {
-				Integer id = invocation.getArgumentAt(0, Integer.class);
-				accountDbSimulator.remove(id);
-				return null;
-			}
-		}).when(accountRepository).delete(anyInt());
 	}
 
 	@Test
@@ -132,9 +77,6 @@ public class AccountServiceTest {
 		int oldSize = accountService.getAccountList().size();
 		accountService.createAccount(account);
 
-		when(accountRepository.findAll())
-		    .thenReturn(accountDbSimulator.values().stream().filter(Objects::nonNull).collect(Collectors.toList()));
-
 		int newSize = accountService.getAccountList().size();
 		List<Account> accounts = accountService.getAccountList();
 		Assert.assertNotEquals(oldSize, newSize);
@@ -146,8 +88,6 @@ public class AccountServiceTest {
 		int oldSize = accountService.getAccountList().size();
 		accountService.delete(1);
 
-		when(accountRepository.findAll())
-		    .thenReturn(accountDbSimulator.values().stream().filter(Objects::nonNull).collect(Collectors.toList()));
 		int newSize = accountService.getAccountList().size();
 		Assert.assertNotEquals(oldSize, newSize);
 	}

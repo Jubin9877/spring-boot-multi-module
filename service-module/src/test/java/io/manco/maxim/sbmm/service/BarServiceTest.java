@@ -1,36 +1,54 @@
 package io.manco.maxim.sbmm.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 //import com.gjj.igden.model.Bar;
 //import com.gjj.igden.service.barService.BarService;
 //import com.gjj.igden.service.test.daostub.BarDaoStub;
 import org.junit.Assert;
-import org.junit.FixMethodOrder;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 import io.manco.maxim.sbmm.domain.Bar;
-import io.manco.maxim.sbmm.service.BarService;
+import io.manco.maxim.sbmm.service.stub.BarRepositoryStub;
 
-@Configuration
-@ComponentScan(basePackageClasses = { BarService.class })
-class SpringConfigContextBarService {
-}
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = SpringConfigContextBarService.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = ServiceTestConfiguration.class)
 public class BarServiceTest {
   @Autowired
   private BarService barService;
+  
+  @Before
+  public void BarSetup(){
+  	List<Bar> barList1 = Stream.of(new Bar(1L, "AAPL@NASDAQ"),
+        new Bar(2L, "AAPL@NASDAQ"), new Bar(3L, "AAPL@NASDAQ"))
+        .collect(Collectors.toList());
+      List<Bar> barList2 = Stream.of(new Bar(1L, "GOOG@NASDAQ"),
+        new Bar(2L, "GOOG@NASDAQ"),
+        new Bar(3L, "GOOG@NASDAQ"), new Bar(4L, "GOOG@NASDAQ"))
+        .collect(Collectors.toList());
+      List<Bar> barListORCL = Stream.of(new Bar(1L, "ORCL@NASDAQ"),
+        new Bar(2L, "ORCL@NASDAQ"),
+        new Bar(3L, "ORCL@NASDAQ"), new Bar(4L, "ORCL@NASDAQ"))
+        .collect(Collectors.toList());
+      Map<String, List<Bar>> barCollectionMap1 = Maps.newHashMap(ImmutableMap.of("AAPL@NASDAQ", barList1, "GOOG@NASDAQ", barList2, "ORCL@NASDAQ", barListORCL));
+      Map<String, List<Bar>> barCollectionMap2 = Maps.newHashMap(ImmutableMap.of("ORCL@NASDAQ", barListORCL));
+      int simulateDataSetId01 = 1;
+      int simulateDataSetId02 = 2;
+      BarRepositoryStub.marketDataDbSimulator = Maps.newHashMap(ImmutableMap.of(simulateDataSetId01, barCollectionMap1, simulateDataSetId02, barCollectionMap2));
+  	
+  }
 
   @Test
   public void simpleReadTest01() {

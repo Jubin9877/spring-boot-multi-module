@@ -19,7 +19,7 @@ public class BarService {
   private static final Logger LOGGER = LoggerFactory.getLogger(BarService.class);
 
   @Autowired
-  private BarRepository barDao;
+  private BarRepository barRepository;
 
   @Autowired
   private StockRepository stockRepository;
@@ -27,24 +27,24 @@ public class BarService {
   public List<Bar> getBarListStock(String stockSymbol) {
     Stock stock = stockRepository.findByName(stockSymbol);
     LOGGER.info("Request to View Data for Bar chart for symbol : {} .", stockSymbol);
-    return barDao.findByStockId(stock.getId());
+    return barRepository.findByStockId(stock.getId());
   }
 
   public Bar getSingleBar(Integer barId, String instId) {
     Stock stock = stockRepository.findByName(instId);
-    return barDao.findByMdIdAndStockId(barId, stock.getId());
+    return barRepository.findByMdIdAndStockId(barId, stock.getId());
   }
 
   public Bar update(Bar bar) {
-    return barDao.save(bar);
+    return barRepository.save(bar);
   }
 
   public Bar createBar(Bar bar) {
-    return barDao.save(bar);
+    return barRepository.save(bar);
   }
 
   public void deleteBar(Bar bar) {
-    barDao.delete(bar);
+    barRepository.delete(bar);
   }
 
   public List<String> searchTickersByChars(String tickerNameId) {
