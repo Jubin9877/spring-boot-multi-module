@@ -2,3 +2,4 @@
 .project
 target
 .classpath
+hs_err_pid*
