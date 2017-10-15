@@ -28,6 +28,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(name = "account")
 public class Account implements Serializable, UserDetails {
+	
+	public Account(){
+		
+	}
 
 	public Account(String accountName, String eMail, String additionalInfo, String password,
 	    List<WatchListDesc> dataSets, String creationDate) {

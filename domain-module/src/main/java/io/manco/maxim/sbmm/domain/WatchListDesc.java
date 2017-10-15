@@ -173,7 +173,6 @@ public class WatchListDesc {
             + "\n " + "market data freq = " + this.getMarketDataFrequency() + "\n " + "data set name = "
             + this.getWatchListName() + "\n " + "data set description = " + this.getWatchListDetails() + "\n ");
   }
-  
 
   public static class OperationParameters{
     private String name;

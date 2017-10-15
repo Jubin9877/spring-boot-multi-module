@@ -1,12 +1,14 @@
 package io.manco.maxim.sbmm.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import io.manco.maxim.sbmm.repository.BarRepository;
 import io.manco.maxim.sbmm.repository.StockRepository;
@@ -48,6 +50,10 @@ public class BarService {
   }
 
   public List<String> searchTickersByChars(String tickerNameId) {
+
+    if (StringUtils.isEmpty(tickerNameId)) {
+      return Collections.emptyList();
+    }
 
     List<Stock> stocklist = stockRepository.findByNameContaining(tickerNameId);
     List<String> stockSymbols = new ArrayList<>();

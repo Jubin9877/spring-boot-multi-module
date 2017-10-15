@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import io.manco.maxim.sbmm.domain.Account;
 import io.manco.maxim.sbmm.domain.Stock;
 import io.manco.maxim.sbmm.domain.WatchListDesc;
