@@ -44,6 +44,12 @@ public class Bar implements Serializable {
      this.mdId = marketDataId;
      this.stock = new Stock(stockName);
 	}
+  
+  public Bar(long marketDataId, Stock stock) {
+    this.mdId = marketDataId;
+    this.stock = stock;
+	}
+
 
 	@Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

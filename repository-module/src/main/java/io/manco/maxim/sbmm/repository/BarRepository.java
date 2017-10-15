@@ -10,6 +10,6 @@ public interface BarRepository extends JpaRepository<Bar, Integer> {
   
   List<Bar> findByStockId(Integer stockId);
 
-  Bar findByMdIdAndStockId(Integer barId, Integer stockId);
+  Bar findByMdIdAndStockId(Long barId, Integer stockId);
 
 }

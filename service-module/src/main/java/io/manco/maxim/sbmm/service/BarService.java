@@ -30,7 +30,7 @@ public class BarService {
     return barRepository.findByStockId(stock.getId());
   }
 
-  public Bar getSingleBar(Integer barId, String instId) {
+  public Bar getSingleBar(Long barId, String instId) {
     Stock stock = stockRepository.findByName(instId);
     return barRepository.findByMdIdAndStockId(barId, stock.getId());
   }

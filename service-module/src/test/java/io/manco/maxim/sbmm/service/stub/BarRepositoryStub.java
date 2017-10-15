@@ -1,5 +1,6 @@
 package io.manco.maxim.sbmm.service.stub;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ import io.manco.maxim.sbmm.repository.BarRepository;
 
 public class BarRepositoryStub implements BarRepository {
 	
-	public static Map<Integer, Map<String, List<Bar>>> marketDataDbSimulator;
+	public static Map<Integer, Map<Integer, List<Bar>>> marketDataDbSimulator;
 	private static final int WATCHLIST_ID = 1;
 
 	@Override
@@ -102,8 +103,16 @@ public class BarRepositoryStub implements BarRepository {
 
 	@Override
 	public void delete(Bar arg0) {
-		marketDataDbSimulator.get(WATCHLIST_ID).get(arg0.getStock().getId()).stream()
-    .filter(p -> p.getMdId().equals(arg0.getMdId()));
+		List<Bar> list = marketDataDbSimulator.get(WATCHLIST_ID).get(arg0.getStock().getId());
+		for (Bar bar : list) {
+			if(bar.getMdId().equals(arg0.getMdId())){
+				List<Bar> tempList = new ArrayList<>(list);
+				tempList.remove(bar);
+				marketDataDbSimulator.get(WATCHLIST_ID).put(arg0.getStock().getId(), tempList);
+				return;
+			}
+		}
+		
 
 	}
 
@@ -132,7 +141,9 @@ public class BarRepositoryStub implements BarRepository {
 
 	@Override
 	public <S extends Bar> S save(S arg0) {
-		marketDataDbSimulator.get(WATCHLIST_ID).get(arg0.getStock().getName().toString()).add(arg0);
+		Map<Integer, List<Bar>> map = marketDataDbSimulator.get(WATCHLIST_ID);
+		List<Bar> list = map.get(arg0.getStock().getId());
+		list.add(arg0);
 		return arg0;
 	}
 
@@ -166,9 +177,14 @@ public class BarRepositoryStub implements BarRepository {
 	}
 
 	@Override
-	public Bar findByMdIdAndStockId(Integer mdId, Integer stockId) {
-		return marketDataDbSimulator.get(WATCHLIST_ID).get(stockId)
-    .stream().filter(p -> (p.getMdId().equals(mdId))).findFirst().get();
+	public Bar findByMdIdAndStockId(Long mdId, Integer stockId) {
+		List<Bar> barList = marketDataDbSimulator.get(WATCHLIST_ID).get(stockId);
+		for (Bar bar : barList) {
+			if(bar.getMdId().equals(mdId)){
+				return bar;
+			}
+		}
+		return null;
 	}
 
 }

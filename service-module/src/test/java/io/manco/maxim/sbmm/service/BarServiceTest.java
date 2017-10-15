@@ -6,9 +6,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-//import com.gjj.igden.model.Bar;
-//import com.gjj.igden.service.barService.BarService;
-//import com.gjj.igden.service.test.daostub.BarDaoStub;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +18,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import io.manco.maxim.sbmm.domain.Bar;
+import io.manco.maxim.sbmm.domain.Stock;
 import io.manco.maxim.sbmm.service.stub.BarRepositoryStub;
+import io.manco.maxim.sbmm.service.stub.StockRepositoryStub;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = ServiceTestConfiguration.class)
@@ -31,19 +30,33 @@ public class BarServiceTest {
   
   @Before
   public void BarSetup(){
-  	List<Bar> barList1 = Stream.of(new Bar(1L, "AAPL@NASDAQ"),
-        new Bar(2L, "AAPL@NASDAQ"), new Bar(3L, "AAPL@NASDAQ"))
+  	
+  	Stock stock1 = new Stock(1, "AAPL@NASDAQ");
+  	Stock stock2 = new Stock(2, "GOOG@NASDAQ");
+  	Stock stock3 = new Stock(3, "ORCL@NASDAQ");
+
+  	StockRepositoryStub.stockSimulatorDB = Maps.newHashMap(ImmutableMap.of("AAPL@NASDAQ", stock1, "GOOG@NASDAQ", stock2, "ORCL@NASDAQ", stock3));
+
+  	List<Bar> barList1 = Stream.of(
+  			new Bar(1L, stock1),
+        new Bar(2L, stock1), 
+        new Bar(3L, stock1))
         .collect(Collectors.toList());
-      List<Bar> barList2 = Stream.of(new Bar(1L, "GOOG@NASDAQ"),
-        new Bar(2L, "GOOG@NASDAQ"),
-        new Bar(3L, "GOOG@NASDAQ"), new Bar(4L, "GOOG@NASDAQ"))
+
+      List<Bar> barList2 = Stream.of(
+    		new Bar(1L, stock2),
+        new Bar(2L, stock2),
+        new Bar(3L, stock2))
         .collect(Collectors.toList());
-      List<Bar> barListORCL = Stream.of(new Bar(1L, "ORCL@NASDAQ"),
-        new Bar(2L, "ORCL@NASDAQ"),
-        new Bar(3L, "ORCL@NASDAQ"), new Bar(4L, "ORCL@NASDAQ"))
+
+      List<Bar> barListORCL = Stream.of(
+    		new Bar(1L, stock3),
+        new Bar(2L, stock3),
+        new Bar(3L, stock3))
         .collect(Collectors.toList());
-      Map<String, List<Bar>> barCollectionMap1 = Maps.newHashMap(ImmutableMap.of("AAPL@NASDAQ", barList1, "GOOG@NASDAQ", barList2, "ORCL@NASDAQ", barListORCL));
-      Map<String, List<Bar>> barCollectionMap2 = Maps.newHashMap(ImmutableMap.of("ORCL@NASDAQ", barListORCL));
+
+      Map<Integer, List<Bar>> barCollectionMap1 = Maps.newHashMap(ImmutableMap.of(1, barList1, 2, barList2, 3, barListORCL));
+      Map<Integer, List<Bar>> barCollectionMap2 = Maps.newHashMap(ImmutableMap.of(3, barListORCL));
       int simulateDataSetId01 = 1;
       int simulateDataSetId02 = 2;
       BarRepositoryStub.marketDataDbSimulator = Maps.newHashMap(ImmutableMap.of(simulateDataSetId01, barCollectionMap1, simulateDataSetId02, barCollectionMap2));
@@ -58,26 +71,24 @@ public class BarServiceTest {
 
   @Test
   public void testCreateH2DataBaseTest() {
-    Bar bar = barService.getSingleBar(1, "AAPL@NASDAQ");
+    Bar bar = barService.getSingleBar(1L, "AAPL@NASDAQ");
     Assert.assertNotNull(bar);
     Assert.assertEquals("AAPL@NASDAQ", bar.getStock().getName());
   }
 
   @Test
   public void testUpdate() {
-    Bar bar = barService.getSingleBar(1, "AAPL@NASDAQ");
+    Bar bar = barService.getSingleBar(1L, "AAPL@NASDAQ");
     Bar barCopy = new Bar(bar);
     barCopy.setLogInfo("test update");
-    // Assert.assertTrue(barService.update(barCopy));
     Bar barcheck = barService.update(barCopy);
     Assert.assertNotNull(barcheck);
-    bar = barService.getSingleBar(1, "AAPL@NASDAQ");
-    Assert.assertEquals("test update", bar.getLogInfo());
+    Assert.assertEquals("test update", barcheck.getLogInfo());
   }
 
   @Test
   public void testCreateBar() throws Exception {
-    Bar bar = barService.getSingleBar(2, "AAPL@NASDAQ");
+    Bar bar = barService.getSingleBar(2L, "AAPL@NASDAQ");
     System.out.println(bar);
     Assert.assertNotNull(bar);
     bar.setMdId(111L);
@@ -92,18 +103,10 @@ public class BarServiceTest {
 
   @Test
   public void testDelete() throws Exception {
-    Bar bar = barService.getSingleBar(3, "AAPL@NASDAQ");
-    System.out.println(bar);
+    Bar bar = barService.getSingleBar(3L, "AAPL@NASDAQ");
     Assert.assertNotNull(bar);
-    // Assert.assertTrue(barService.deleteBar(bar));
     barService.deleteBar(bar);
-    Bar barcheck = barService.getSingleBar(3, "AAPL@NASDAQ");
+    Bar barcheck = barService.getSingleBar(3L, "AAPL@NASDAQ");
     Assert.assertNull(barcheck);
-    try {
-      System.out.println(barService.getSingleBar(3, "AAPL@NASDAQ"));
-      Assert.fail();
-    } catch (NullPointerException e) {
-      Assert.assertTrue(true);
-    }
   }
 }

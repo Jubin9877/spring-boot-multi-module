@@ -63,7 +63,18 @@ public class WatchListDesc {
   public WatchListDesc() {
   }
 
-  // public WatchListDesc(int accountId) {
+  public WatchListDesc(String watchListName) {
+		super();
+		this.watchListName = watchListName;
+	}
+
+  public WatchListDesc(Integer watchListId, String watchListName) {
+		super();
+		this.watchListId = watchListId;
+		this.watchListName = watchListName;
+	}
+
+	// public WatchListDesc(int accountId) {
   // this.accountId = accountId;
   // }
 
@@ -158,7 +169,7 @@ public class WatchListDesc {
   @Override
   public String toString() {
     return String
-        .valueOf(" account id =  " + this.getAccount().getAccountId() + "\n " + "data set id = " + this.getWatchListId()
+        .valueOf(" account id =  " + this.getAccount() + "\n " + "data set id = " + this.getWatchListId()
             + "\n " + "market data freq = " + this.getMarketDataFrequency() + "\n " + "data set name = "
             + this.getWatchListName() + "\n " + "data set description = " + this.getWatchListDetails() + "\n ");
   }

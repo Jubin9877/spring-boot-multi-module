@@ -22,6 +22,12 @@ public class Stock implements Serializable {
 		this.name = name;
 	}
 
+	public Stock(Integer id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+
 	public Stock() {
 	}
 

@@ -197,4 +197,9 @@ public class Account implements Serializable, UserDetails {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Account [accountId=" + accountId + ", accountName=" + accountName + ", email=" + email + "]";
+	}
+
 }

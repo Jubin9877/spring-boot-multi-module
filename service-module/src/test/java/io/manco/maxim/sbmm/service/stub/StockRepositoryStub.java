@@ -1,6 +1,8 @@
 package io.manco.maxim.sbmm.service.stub;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,8 @@ import io.manco.maxim.sbmm.domain.Stock;
 import io.manco.maxim.sbmm.repository.StockRepository;
 
 public class StockRepositoryStub implements StockRepository {
+	
+	public static Map<String, Stock> stockSimulatorDB = new HashMap<String, Stock>();
 
 	@Override
 	public List<Stock> findAll() {
@@ -158,8 +162,7 @@ public class StockRepositoryStub implements StockRepository {
 
 	@Override
 	public Stock findByName(String name) {
-		
-		return null;
+		return stockSimulatorDB.get(name); 
 	}
 
 	@Override

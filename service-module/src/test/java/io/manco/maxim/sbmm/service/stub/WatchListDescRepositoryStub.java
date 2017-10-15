@@ -1,7 +1,9 @@
 package io.manco.maxim.sbmm.service.stub;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,21 +22,7 @@ import io.manco.maxim.sbmm.repository.WatchListRepository;
 
 public class WatchListDescRepositoryStub implements WatchListRepository {
 
-	private static Map<Integer, List<WatchListDesc>> watchListDescsDb;
-
-	static {
-		List<WatchListDesc> watchListDescsAttachedToAccWithIdOne = Stream
-		    .of(new WatchListDesc(), new WatchListDesc(), new WatchListDesc(), new WatchListDesc())
-		    .collect(Collectors.toList());
-
-		WatchListDesc theWatchListD = new WatchListDesc();
-		theWatchListD.setWatchListName("test-aapl-5minBar-preMarketdata");
-
-		List<WatchListDesc> watchListDescsAttachedToAccWithIdTwo = Lists.newArrayList(theWatchListD);
-
-		watchListDescsDb = Maps
-		    .newHashMap(ImmutableMap.of(1, watchListDescsAttachedToAccWithIdOne, 2, watchListDescsAttachedToAccWithIdTwo));
-	}
+	public static Map<Integer, List<WatchListDesc>> watchListDescsDb;
 
 	@Override
 	public List<WatchListDesc> findAll() {
@@ -118,8 +106,20 @@ public class WatchListDescRepositoryStub implements WatchListRepository {
 
 	@Override
 	public void delete(WatchListDesc watchListDesc) {
-		watchListDescsDb.entrySet().stream().anyMatch(e -> e.getValue().removeIf(p -> p.equals(watchListDesc)));
-
+		watchListDescsDb.entrySet().stream().anyMatch(e -> e.getValue().removeIf(p -> p.getWatchListId().equals(watchListDesc.getWatchListId())));
+		for (Entry<Integer, List<WatchListDesc>> iterable_element : watchListDescsDb.entrySet()) {
+			List<WatchListDesc> list = iterable_element.getValue();
+			int key = iterable_element.getKey();
+			for (WatchListDesc watchListDesc2 : list) {
+				if(watchListDesc2.getWatchListId().equals(watchListDesc.getWatchListId())){
+					List<WatchListDesc> newWl = new ArrayList<>(list);
+					newWl.remove(watchListDesc2);
+					watchListDescsDb.put(key, newWl);
+					return;
+				}
+			}
+			
+		}
 	}
 
 	@Override
@@ -148,13 +148,13 @@ public class WatchListDescRepositoryStub implements WatchListRepository {
 
 	@Override
 	public <S extends WatchListDesc> S save(S watchlistDesc) {
-		List<WatchListDesc> watchlist = watchListDescsDb.get(watchlistDesc.getAccount().getAccountId());
+		List<WatchListDesc> watchlist = watchListDescsDb.get(1);
 		if (watchlist != null) {
 			watchlist.add(watchlistDesc);
 		}else{
 			watchListDescsDb.put(watchlistDesc.getAccount().getAccountId(), watchlist);
 		}
-		return null;
+		return watchlistDesc;
 	}
 
 	@Override
@@ -193,8 +193,7 @@ public class WatchListDescRepositoryStub implements WatchListRepository {
 
 	@Override
 	public WatchListDesc findByAccountAccountIdAndWatchListId(Integer accountId, Integer watchListId) {
-		// TODO Auto-generated method stub
-		return null;
+		return watchListDescsDb.get(accountId).get(watchListId);
 	}
 
 }
